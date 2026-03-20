@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       if (user.email) {
         await resend.emails.send({
           from: 'onboarding@resend.dev',
-          to: 'shivasap27@gmail.com', // Restricted to this email by Resend free tier
+          to: user.email, // Dynamic recipient from database
           subject: 'Whispers Within: New Message',
           react: NewMessageEmail({ username: user.username, message: content }),
         });
