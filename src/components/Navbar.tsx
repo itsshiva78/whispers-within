@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
+import Image from 'next/image';
 import { Button } from './ui/button';
 import { User } from 'next-auth';
 
@@ -14,7 +15,16 @@ function Navbar() {
     <nav className="shadow-md bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border sticky top-0 z-50">
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 h-16 flex justify-between items-center">
         <div className="flex items-center">
-          <Link href="/">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative h-10 w-10 overflow-hidden rounded-lg shadow-inner transition-transform group-hover:scale-110">
+              <Image 
+                src="/logo.png" 
+                alt="Whispers Within Logo" 
+                fill 
+                className="object-cover"
+                priority
+              />
+            </div>
             <span className="font-bold text-xl md:text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-red-600 drop-shadow-sm">
               Whispers Within
             </span>
