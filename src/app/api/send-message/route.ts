@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     try {
       if (user.email) {
         await resend.emails.send({
-          from: 'onboarding@resend.dev',
+          from: 'no-reply@whispers-within.in',
           to: user.email, // Dynamic recipient from database
           subject: 'Whispers Within: New Message',
           react: NewMessageEmail({ username: user.username, message: content }),
