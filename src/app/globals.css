@@ -1,76 +1,120 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 8%; /* #141414 */
-    --foreground: 0 0% 100%; /* #FFFFFF */
+    --background: 250 15% 5%;       /* #0d0b14 */
+    --foreground: 240 10% 90%;      /* #e2e0ea */
 
-    --card: 0 0% 12%; /* #1f1f1f */
-    --card-foreground: 0 0% 100%;
+    --card: 250 15% 9%;             /* #15121f */
+    --card-foreground: 240 10% 90%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 250 15% 7%;
+    --popover-foreground: 240 10% 90%;
 
-    --primary: 357 92% 47%; /* #E50914 - Netflix Red */
+    --primary: 265 85% 60%;         /* #8b5cf6 - Vibrant Violet */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 250 15% 15%;
+    --secondary-foreground: 240 10% 90%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 250 15% 15%;
+    --muted-foreground: 240 10% 50%;
 
-    --accent: 0 0% 20%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 265 40% 20%;
+    --accent-foreground: 240 10% 90%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 357 92% 47%;
+    --border: 250 15% 14%;
+    --input: 250 15% 14%;
+    --ring: 265 85% 60%;
 
-    --radius: 0.3rem;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 0 0% 8%;
-    --foreground: 0 0% 100%;
+    --background: 250 15% 5%;
+    --foreground: 240 10% 90%;
 
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 100%;
+    --card: 250 15% 9%;
+    --card-foreground: 240 10% 90%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 250 15% 7%;
+    --popover-foreground: 240 10% 90%;
 
-    --primary: 357 92% 47%;
+    --primary: 265 85% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 250 15% 15%;
+    --secondary-foreground: 240 10% 90%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 250 15% 15%;
+    --muted-foreground: 240 10% 50%;
 
-    --accent: 0 0% 20%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 265 40% 20%;
+    --accent-foreground: 240 10% 90%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 357 92% 47%;
+    --border: 250 15% 14%;
+    --input: 250 15% 14%;
+    --ring: 265 85% 60%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* Premium Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes particle-drift {
+  0% { transform: translate(0, 0); opacity: 0.6; }
+  25% { transform: translate(15px, -20px); opacity: 1; }
+  50% { transform: translate(-10px, -35px); opacity: 0.7; }
+  75% { transform: translate(20px, -15px); opacity: 1; }
+  100% { transform: translate(0, 0); opacity: 0.6; }
 }

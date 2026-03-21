@@ -20,12 +20,13 @@ const MessageSchema: Schema<Message> = new mongoose.Schema({
 export interface User extends Document {
   username: string;
   email: string;
-  password: string;
-  verifyCode: string;
-  verifyCodeExpiry: Date; 
+  password?: string;
+  verifyCode?: string;
+  verifyCodeExpiry?: Date;
   isVerified: boolean;
   isAcceptingMessages: boolean;
   messages: Message[];
+  provider?: string;
 }
 
 // Updated User schema
@@ -44,15 +45,15 @@ const UserSchema: Schema<User> = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    required: false, // Optional for OAuth users
   },
   verifyCode: {
     type: String,
-    required: [true, 'Verify Code is required'],
+    required: false, // Optional for OAuth users
   },
   verifyCodeExpiry: {
     type: Date,
-    required: [true, 'Verify Code Expiry is required'],
+    required: false, // Optional for OAuth users
   },
   isVerified: {
     type: Boolean,
@@ -61,6 +62,10 @@ const UserSchema: Schema<User> = new mongoose.Schema({
   isAcceptingMessages: {
     type: Boolean,
     default: true,
+  },
+  provider: {
+    type: String,
+    default: 'credentials',
   },
   messages: [MessageSchema],
 });

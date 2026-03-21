@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Inter } from 'next/font/google';
+import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import AuthProvider from '../context/AuthProvider';
 import { Toaster } from '@/components/ui/toaster';
+import FloatingParticles from '@/components/FloatingParticles';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata: Metadata = {
   title: 'Whispers Within | Real Feedback from Real People',
@@ -48,12 +50,13 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <meta name="google-adsense-account" content="ca-pub-4666306883399247" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans`}>
         <AuthProvider>
+          <FloatingParticles />
           {children}
           <Toaster />
         </AuthProvider>
@@ -61,4 +64,3 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     </html>
   );
 }
-
