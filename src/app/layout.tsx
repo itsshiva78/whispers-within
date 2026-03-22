@@ -56,7 +56,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className="dark">
       <head>
-        <script src="https://quge5.com/88/tag.min.js" data-zone="222140" async data-cfasync="false"></script>
+        <script src="https://quge5.com/88/tag.min.js" data-zone="222148" async data-cfasync="false"></script>
         <meta name="google-adsense-account" content="ca-pub-4666306883399247" />
         <script
           dangerouslySetInnerHTML={{
