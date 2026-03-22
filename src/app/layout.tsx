@@ -57,6 +57,21 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" className="dark">
       <head>
         <meta name="google-adsense-account" content="ca-pub-4666306883399247" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                  }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                  });
+                });
+              }
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans`}>
         <AuthProvider>
