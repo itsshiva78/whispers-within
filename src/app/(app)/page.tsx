@@ -76,7 +76,7 @@ export default function Home() {
                         <span className="text-xs text-muted-foreground/50">Just now</span>
                       </div>
                       <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
-                        "I've always had a huge crush on you but I was too shy to say it in person! You looked amazing yesterday. 🫣"
+                        &quot;I&apos;ve always had a huge crush on you but I was too shy to say it in person! You looked amazing yesterday. 🫣&quot;
                       </p>
                       
                       <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-center">
@@ -129,11 +129,11 @@ export default function Home() {
         {/* CTA Section */}
         <section className="relative z-10 py-24 w-full">
           <div className="max-w-2xl mx-auto text-center px-6">
-            <h2 className="text-4xl font-extrabold mb-6">Curious what they'll say?</h2>
+            <h2 className="text-4xl font-extrabold mb-6">Curious what they&apos;ll say?</h2>
             <p className="text-muted-foreground text-xl mb-10">Stop guessing. Get your link and find out the truth right now.</p>
             <Link href="/sign-up">
               <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-xl px-12 py-8 rounded-xl shadow-xl shadow-violet-500/20 transition-all hover:scale-105">
-                Get your link – It's Free <ChevronRight className="ml-2 h-6 w-6" />
+                Get your link – It&apos;s Free <ChevronRight className="ml-2 h-6 w-6" />
               </Button>
             </Link>
           </div>
