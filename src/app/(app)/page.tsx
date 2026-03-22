@@ -2,16 +2,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, Shield, Sparkles, Eye, MessageCircle } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Autoplay from 'embla-carousel-autoplay';
-import messages from '@/messages.json';
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
+import { ChevronRight, Shield, Sparkles, Eye, Lock, MessageCircle } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -24,74 +15,86 @@ export default function Home() {
           style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)', animationDelay: '3s' }} />
 
         {/* Hero Section */}
-        <section className="relative z-10 w-full max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh] px-6 lg:px-12 pt-20 pb-32">
-          <div className="space-y-8 max-w-2xl animate-in fade-in slide-in-from-bottom-5 duration-1000">
+        <section className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center text-center min-h-[90vh] px-6 lg:px-12 pt-24 pb-20">
+          <div className="space-y-8 max-w-3xl animate-in fade-in slide-in-from-bottom-5 duration-1000 flex flex-col items-center">
+            
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium">
               <Sparkles className="h-4 w-4" />
-              Anonymous messaging reimagined
+              The ultimate anonymous feedback platform
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]">
-              Speak freely.
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 animate-gradient">Stay hidden.</span>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]">
+              What are people afraid <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 animate-gradient">to tell you?</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground font-medium max-w-lg leading-relaxed">
-              Send and receive anonymous messages. Discover what people truly think — without revealing who you are.
+            
+            <p className="text-lg md:text-xl text-muted-foreground font-medium max-w-2xl leading-relaxed mx-auto">
+              Get an anonymous link, share it on your Instagram or Snapchat story, and receive brutally honest, unfiltered secrets.
             </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Link href="/sign-up">
-                <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-lg px-8 py-6 rounded-xl shadow-xl shadow-violet-500/20 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/30">
-                  Get Started <ChevronRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/confessions">
-                <Button variant="outline" size="lg" className="bg-secondary/50 hover:bg-secondary text-foreground border-border/50 font-semibold text-lg px-8 py-6 rounded-xl transition-all hover:scale-105">
-                  🔥 Confession Wall
-                </Button>
+            
+            {/* Social Proof Numbers */}
+            <div className="flex items-center gap-6 py-2 text-sm font-semibold text-muted-foreground/80">
+              <div className="flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                10,000+ Whispers Sent
+              </div>
+              <div className="h-4 w-px bg-border/50"></div>
+              <div className="flex items-center gap-2">
+                <span className="text-violet-400">★</span>
+                5,000+ Active Users
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
+              <Link href="/sign-up" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-lg px-8 py-7 rounded-xl shadow-xl shadow-violet-500/20 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/30">
+                  Get your anonymous link in 30s <ChevronRight className="ml-2 h-5 w-5" />
+               </Button>
               </Link>
             </div>
           </div>
-        </section>
 
-        {/* Trending Messages */}
-        <section className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-24 -mt-16 space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-1 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Trending Whispers</h2>
+          {/* App Dashboard Mockup / Demo */}
+          <div className="mt-20 w-full max-w-4xl relative animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
+             {/* Mockup Glow */}
+             <div className="absolute inset-x-10 -inset-y-5 bg-gradient-to-r from-violet-500/30 to-indigo-500/30 blur-[100px] -z-10 rounded-[3rem]"></div>
+             
+             {/* Fake Browser Window */}
+             <div className="rounded-2xl border border-white/10 shadow-2xl overflow-hidden bg-black/60 relative z-10" style={{ backdropFilter: 'blur(20px)' }}>
+                {/* Window Header */}
+                <div className="h-10 bg-white/5 border-b border-white/5 flex items-center px-4 gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                  <div className="mx-auto text-xs font-medium text-white/30 tracking-wider">whispers-within.in/dashboard</div>
+                </div>
+                {/* Window Content (Fake Message) */}
+                <div className="p-8 md:p-12 flex flex-col items-center">
+                   <div className="w-full max-w-lg p-6 rounded-xl border border-violet-500/20 bg-violet-500/5 relative">
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-xs font-bold uppercase text-muted-foreground/50 tracking-wider">New Whisper</span>
+                        <span className="text-xs text-muted-foreground/50">Just now</span>
+                      </div>
+                      <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
+                        "I've always had a huge crush on you but I was too shy to say it in person! You looked amazing yesterday. 🫣"
+                      </p>
+                      
+                      <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-center">
+                         <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                               <Shield className="w-4 h-4 text-violet-400" />
+                            </div>
+                            <span className="text-sm font-medium text-white/50">Sender Hidden</span>
+                         </div>
+                         <Button size="sm" variant="outline" className="border-violet-500/30 text-violet-300 bg-violet-500/10 hover:bg-violet-500/20">
+                            <Lock className="w-4 h-4 mr-2"/>
+                            Reveal Identity
+                         </Button>
+                      </div>
+                   </div>
+                </div>
+             </div>
           </div>
-
-          <Carousel plugins={[Autoplay({ delay: 3000 })]} className="w-full">
-            <CarouselContent className="-ml-4">
-              {messages.map((message, index) => (
-                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                  <div className="h-full p-1">
-                    <Card className="border-0 text-card-foreground transition-all duration-300 hover:-translate-y-2 cursor-pointer h-full min-h-[180px] flex flex-col justify-between group rounded-xl"
-                      style={{
-                        background: 'rgba(21, 18, 31, 0.6)',
-                        backdropFilter: 'blur(12px)',
-                        border: '1px solid rgba(139,92,246,0.08)',
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-                      }}>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg font-bold flex items-center justify-between text-foreground/90">
-                          {message.title}
-                          <MessageCircle className="h-4 w-4 text-violet-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground group-hover:text-foreground/70 transition-colors line-clamp-3 leading-relaxed">
-                          {message.content}
-                        </p>
-                        <p className="mt-4 text-xs font-medium text-muted-foreground/50 pt-3 border-t border-border/20 uppercase tracking-wider">
-                          {message.received}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
         </section>
 
         {/* Features Section */}
@@ -103,9 +106,9 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { icon: Shield, title: 'Total Anonymity', desc: 'Your identity is encrypted and never revealed. Speak your truth safely.' },
-                { icon: Eye, title: 'Real Insights', desc: 'Get honest feedback from friends, coworkers, and the community.' },
-                { icon: Sparkles, title: 'AI Moderation', desc: 'Our advanced AI ensures messages are free while abuse is checked.' },
+                { icon: Shield, title: 'Total Anonymity', desc: 'Your identity is encrypted and never revealed unless you choose to.' },
+                { icon: Eye, title: 'Real Insights', desc: 'Get brutally honest feedback from friends, coworkers, and crushes.' },
+                { icon: Sparkles, title: 'AI Assistant', desc: 'Generate creative, funny, or deep messages effortlessly with our built-in AI.' },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center text-center space-y-4 p-8 rounded-2xl transition-all duration-300 hover:-translate-y-1 group"
                   style={{
@@ -126,11 +129,11 @@ export default function Home() {
         {/* CTA Section */}
         <section className="relative z-10 py-24 w-full">
           <div className="max-w-2xl mx-auto text-center px-6">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to discover the truth?</h2>
-            <p className="text-muted-foreground text-lg mb-10">Create your profile and start receiving anonymous whispers today.</p>
+            <h2 className="text-4xl font-extrabold mb-6">Curious what they'll say?</h2>
+            <p className="text-muted-foreground text-xl mb-10">Stop guessing. Get your link and find out the truth right now.</p>
             <Link href="/sign-up">
-              <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-lg px-10 py-6 rounded-xl shadow-xl shadow-violet-500/20 transition-all hover:scale-105">
-                Get Started Free <ChevronRight className="ml-2 h-5 w-5" />
+              <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-xl px-12 py-8 rounded-xl shadow-xl shadow-violet-500/20 transition-all hover:scale-105">
+                Get your link – It's Free <ChevronRight className="ml-2 h-6 w-6" />
               </Button>
             </Link>
           </div>

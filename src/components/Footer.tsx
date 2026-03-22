@@ -15,7 +15,7 @@ function Footer() {
                     Contact
                 </Link>
             </div>
-            <p>© 2026 Whispers Within. Made by Shiva Srivastava ❤️</p>
+            <p>© 2026 Whispers Within. All rights reserved.</p>
         </footer>
     );
 }
