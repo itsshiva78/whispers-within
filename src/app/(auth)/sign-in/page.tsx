@@ -49,7 +49,7 @@ export default function SignInForm() {
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
-    try { await signIn('google', { callbackUrl: '/dashboard' }); }
+    try { await signIn('google', { callbackUrl: '/complete-profile' }); }
     catch { setIsGoogleLoading(false); }
   };
 

@@ -29,9 +29,16 @@ export async function GET(request: Request) {
     ]).exec();
 
     if (!user || user.length === 0) {
+      const foundUser = await UserModel.findById(userId).exec();
+      if (!foundUser) {
+        return Response.json(
+          { message: 'User not found', success: false },
+          { status: 404 }
+        );
+      }
       return Response.json(
-        { message: 'User not found', success: false },
-        { status: 404 }
+        { messages: [] },
+        { status: 200 }
       );
     }
 

@@ -44,9 +44,9 @@ export default function Home() {
                   Get Started <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="#features">
+              <Link href="/confessions">
                 <Button variant="outline" size="lg" className="bg-secondary/50 hover:bg-secondary text-foreground border-border/50 font-semibold text-lg px-8 py-6 rounded-xl transition-all hover:scale-105">
-                  Learn More
+                  🔥 Confession Wall
                 </Button>
               </Link>
             </div>

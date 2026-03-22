@@ -10,6 +10,7 @@ import { CardHeader, CardContent, Card } from '@/components/ui/card';
 import { useCompletion } from 'ai/react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import * as z from 'zod';
 import { ApiResponse } from '@/types/ApiResponse';
@@ -23,7 +24,7 @@ const initialMessageString = "What's your favorite movie?||Do you have any pets?
 
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
-  const username = params.username;
+  const username = decodeURIComponent(params.username || '');
 
   const { complete, completion, isLoading: isSuggestLoading, error } = useCompletion({
     api: '/api/suggest-messages',
@@ -85,6 +86,40 @@ export default function SendMessage() {
                     <FormMessage />
                   </FormItem>
                 )} />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField control={form.control} name="senderName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Name (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Leave a hint..."
+                          className="h-12 rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                          {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+
+                <FormField control={form.control} name="senderGender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Gender (Optional)</FormLabel>
+                      <FormControl>
+                        <select
+                          className="flex h-12 w-full items-center justify-between rounded-xl border-0 bg-background/80 px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+                          {...field}
+                        >
+                          <option className="bg-background text-foreground" value="">Secret 🤫</option>
+                          <option className="bg-background text-foreground" value="Male">Male 👦</option>
+                          <option className="bg-background text-foreground" value="Female">Female 👧</option>
+                          <option className="bg-background text-foreground" value="Other">Other 🏳️‍🌈</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+              </div>
               <div className="flex justify-center">
                 <Button type="submit" disabled={isLoading || !messageContent}
                   className="h-12 px-8 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-violet-500/20 transition-all hover:scale-[1.02]">

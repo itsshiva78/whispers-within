@@ -6,7 +6,7 @@ import NewMessageEmail from '../../../../emails/NewMessageEmail';
 
 export async function POST(request: Request) {
   await dbConnect();
-  const { username, content } = await request.json();
+  const { username, content, senderName, senderGender } = await request.json();
 
   try {
     const user = await UserModel.findOne({ username }).exec();
@@ -26,7 +26,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const newMessage = { content, createdAt: new Date() };
+    // Capture hint metadata from request
+    const userAgent = request.headers.get('user-agent') || '';
+    const senderDevice = /Mobile|Android|iPhone/i.test(userAgent) ? 'Mobile' : 'Desktop';
+    const hour = new Date().getHours();
+    const senderTimePeriod = hour < 6 ? 'Late Night' : hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : hour < 21 ? 'Evening' : 'Night';
+    const senderPlatform = /iPhone|iPad/i.test(userAgent) ? 'iOS' : /Android/i.test(userAgent) ? 'Android' : /Windows/i.test(userAgent) ? 'Windows' : /Mac/i.test(userAgent) ? 'Mac' : 'Web';
+
+    const newMessage = { 
+      content, 
+      createdAt: new Date(), 
+      senderDevice, 
+      senderTimePeriod, 
+      senderPlatform,
+      senderName,
+      senderGender
+    };
 
     // Push the new message to the user's messages array
     user.messages.push(newMessage as Message);

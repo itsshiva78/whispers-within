@@ -1,13 +1,17 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Inter, Outfit } from 'next/font/google';
+import dynamic from 'next/dynamic';
 import './globals.css';
 import AuthProvider from '../context/AuthProvider';
 import { Toaster } from '@/components/ui/toaster';
-import FloatingParticles from '@/components/FloatingParticles';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), {
+  ssr: false,
+});
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Whispers Within | Real Feedback from Real People',

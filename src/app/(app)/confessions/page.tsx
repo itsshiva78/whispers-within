@@ -5,7 +5,8 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { Heart, Loader2, Send, Flame, MessageCircle } from 'lucide-react';
+import { Heart, Loader2, Send, Flame, MessageCircle, Share2 } from 'lucide-react';
+import { ConfessionShareCard } from '@/components/ConfessionShareCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -37,6 +38,7 @@ export default function ConfessionWall() {
   const [selectedCategory, setSelectedCategory] = useState('general');
   const [filterCategory, setFilterCategory] = useState('all');
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
+  const [shareConfession, setShareConfession] = useState<ConfessionType | null>(null);
   const { toast } = useToast();
 
   const fetchConfessions = useCallback(async () => {
@@ -167,19 +169,34 @@ export default function ConfessionWall() {
                   <span className="text-xs px-2.5 py-1 rounded-full bg-secondary/50 text-muted-foreground capitalize">
                     {confession.category}
                   </span>
-                  <button onClick={() => handleLike(confession._id)}
-                    className={`flex items-center gap-1.5 text-sm transition-all ${
-                      likedIds.has(confession._id)
-                        ? 'text-pink-400'
-                        : 'text-muted-foreground/50 hover:text-pink-400'
-                    }`}>
-                    <Heart className={`h-4 w-4 ${likedIds.has(confession._id) ? 'fill-pink-400' : ''}`} />
-                    {confession.likes}
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button onClick={() => setShareConfession(confession)}
+                      className="flex items-center gap-1.5 text-sm text-muted-foreground/50 hover:text-violet-400 transition-all">
+                      <Share2 className="h-4 w-4" />
+                    </button>
+                    <button onClick={() => handleLike(confession._id)}
+                      className={`flex items-center gap-1.5 text-sm transition-all ${
+                        likedIds.has(confession._id)
+                          ? 'text-pink-400'
+                          : 'text-muted-foreground/50 hover:text-pink-400'
+                      }`}>
+                      <Heart className={`h-4 w-4 ${likedIds.has(confession._id) ? 'fill-pink-400' : ''}`} />
+                      {confession.likes}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+        )}
+
+        {shareConfession && (
+          <ConfessionShareCard
+            content={shareConfession.content}
+            category={shareConfession.category}
+            likes={shareConfession.likes}
+            onClose={() => setShareConfession(null)}
+          />
         )}
       </div>
     </div>

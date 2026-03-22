@@ -8,17 +8,24 @@ import { Message } from '@/model/User';
 import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios, { AxiosError } from 'axios';
-import { Loader2, RefreshCcw, Copy, Link as LinkIcon, MessageCircle } from 'lucide-react';
+import { Loader2, RefreshCcw, Copy, Link as LinkIcon, MessageCircle, Trash2 } from 'lucide-react';
 import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AcceptMessageSchema } from '@/schemas/acceptMessageSchema';
+import { StoryTemplateGenerator } from '@/components/StoryTemplateGenerator';
+import { Instagram } from 'lucide-react';
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 function UserDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
+  const [showStoryGenerator, setShowStoryGenerator] = useState(false);
   const { toast } = useToast();
 
   const handleDeleteMessage = (messageId: string) => {
@@ -81,6 +88,19 @@ function UserDashboard() {
     toast({ title: 'URL Copied!', description: 'Profile URL has been copied to clipboard.' });
   };
 
+  const handleDeleteAll = async () => {
+    try {
+      const response = await axios.delete<ApiResponse>('/api/delete-all-messages');
+      if (response.data.success) {
+        setMessages([]);
+        toast({ title: 'All Cleared! 🧹', description: response.data.message });
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({ title: 'Error', description: axiosError.response?.data.message ?? 'Failed to delete messages', variant: 'destructive' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
@@ -102,21 +122,27 @@ function UserDashboard() {
             <LinkIcon className="h-5 w-5 text-violet-400" />
             <h2 className="text-lg font-semibold text-foreground">Your Unique Link</h2>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex-1 px-4 py-3 rounded-xl text-sm text-muted-foreground font-mono"
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="flex-1 px-4 py-3 rounded-xl text-sm text-muted-foreground font-mono overflow-hidden text-ellipsis whitespace-nowrap"
               style={{ background: 'rgba(13, 11, 20, 0.8)', border: '1px solid rgba(139,92,246,0.08)' }}>
               {profileUrl}
             </div>
-            <Button onClick={copyToClipboard}
-              className="h-11 px-5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-md shadow-violet-500/15 font-medium">
-              <Copy className="h-4 w-4 mr-2" /> Copy
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button onClick={copyToClipboard}
+                className="flex-1 sm:flex-none h-11 px-5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground border border-border/30 font-medium">
+                <Copy className="h-4 w-4 mr-2" /> Copy
+              </Button>
+              <Button onClick={() => setShowStoryGenerator(true)}
+                className="flex-1 sm:flex-none h-11 px-5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-md shadow-violet-500/15 font-medium transition-all hover:scale-105">
+                <Instagram className="h-4 w-4 mr-2" /> Share on IG
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4 rounded-xl px-5 py-3"
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-4 rounded-xl px-5 py-3 w-full sm:w-auto"
             style={{ background: 'rgba(21, 18, 31, 0.5)', border: '1px solid rgba(139,92,246,0.08)' }}>
             <Switch {...register('acceptMessages')} checked={acceptMessages} onCheckedChange={handleSwitchChange} disabled={isSwitchLoading} />
             <span className="text-sm font-medium text-foreground">
@@ -128,6 +154,27 @@ function UserDashboard() {
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw className="h-4 w-4" />}
             <span className="ml-2 text-sm">Refresh</span>
           </Button>
+          {messages.length > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline"
+                  className="h-10 px-4 rounded-xl bg-destructive/10 hover:bg-destructive/20 border-destructive/20 text-destructive hover:text-destructive">
+                  <Trash2 className="h-4 w-4" />
+                  <span className="ml-2 text-sm">Delete All</span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent style={{ background: 'rgba(21, 18, 31, 0.95)', backdropFilter: 'blur(24px)', border: '1px solid rgba(139,92,246,0.15)' }}>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete all whispers?</AlertDialogTitle>
+                  <AlertDialogDescription>This will permanently delete all {messages.length} whisper{messages.length !== 1 ? 's' : ''}. This action cannot be undone.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="rounded-lg">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteAll} className="rounded-lg bg-destructive text-destructive-foreground">Delete All</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
 
         {/* Messages Grid */}
@@ -146,6 +193,14 @@ function UserDashboard() {
           )}
         </div>
       </div>
+
+      {showStoryGenerator && (
+        <StoryTemplateGenerator
+          username={username || 'anonymous'}
+          profileUrl={profileUrl}
+          onClose={() => setShowStoryGenerator(false)}
+        />
+      )}
     </div>
   );
 }

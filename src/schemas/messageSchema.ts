@@ -5,4 +5,6 @@ export const messageSchema = z.object({
     .string()
     .min(10, { message: 'Content must be at least 10 characters.' })
     .max(300, { message: 'Content must not be longer than 300 characters.' }),
+  senderName: z.string().optional(),
+  senderGender: z.enum(['Male', 'Female', 'Other', '']).optional(),
 });
