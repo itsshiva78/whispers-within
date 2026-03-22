@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@cashfreepayments/cashfree-js": "^1.0.6",
-    "@cashfreepayments/cashfree-sdk": "^0.1.7",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^3.3.3",
     "@radix-ui/react-alert-dialog": "^1.0.5",

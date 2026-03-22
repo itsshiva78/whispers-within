@@ -58,7 +58,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       }
 
       // 2. Open Cashfree Popup
-      const cashfree = await load({ mode: 'sandbox' });
+      const cashfree = await load({ mode: 'production' });
       const checkoutOptions = {
         paymentSessionId: data.payment_session_id,
         redirectTarget: '_modal',
