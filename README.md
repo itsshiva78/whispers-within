@@ -25,11 +25,11 @@
 
 | Landing Page | User Dashboard |
 | :---: | :---: |
-| <img src="https://placehold.co/600x400/15121f/8b5cf6?text=Drop+Landing+Page+Screenshot+Here" alt="Landing Page" width="500"/> | <img src="https://placehold.co/600x400/15121f/8b5cf6?text=Drop+Dashboard+Screenshot+Here" alt="Dashboard" width="500"/> |
+| <img src="public/landing.png" alt="Landing Page" width="500"/> | <img src="public/dashboard.png" alt="User Dashboard" width="500"/> |
 
-| Cashfree Identity Reveal | Confession Wall |
+| Create Identity (Sign Up) | Confession Wall |
 | :---: | :---: |
-| <img src="https://placehold.co/600x400/15121f/8b5cf6?text=Drop+Payment+Pop-up+Here" alt="Payment Pop-up" width="500"/> | <img src="https://placehold.co/600x400/15121f/8b5cf6?text=Drop+Wall+Screenshot+Here" alt="Confession Wall" width="500"/> |
+| <img src="public/signup.png" alt="Sign Up Page" width="500"/> | <img src="public/wall.png" alt="Confession Wall" width="500"/> |
 
 ---
 
