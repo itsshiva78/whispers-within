@@ -199,7 +199,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                     {isPaymentLoading ? (
                       <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
                     ) : (
-                      <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹49)</>
+                      <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹299)</>
                     )}
                   </Button>
                 )}

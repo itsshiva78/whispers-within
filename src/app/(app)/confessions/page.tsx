@@ -341,7 +341,7 @@ export default function ConfessionWall() {
                           {isPaymentLoading === confession._id ? (
                             <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
                           ) : (
-                            <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹49)</>
+                            <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹299)</>
                           )}
                         </Button>
                       )}
