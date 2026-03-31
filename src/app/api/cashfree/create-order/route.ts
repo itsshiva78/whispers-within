@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const customerId = `cust_${session.user._id}`;
     
     const orderRequest = {
-      order_amount: 299.00,
+      order_amount: 199.00,
       order_currency: 'INR',
       order_id: orderId,
       customer_details: {
