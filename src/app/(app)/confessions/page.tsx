@@ -155,11 +155,11 @@ export default function ConfessionWall() {
       <div className="max-w-3xl mx-auto px-4 py-10">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center mb-5 border border-violet-500/10">
-            <Flame className="h-8 w-8 text-violet-400" />
+          <div className="mx-auto w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center mb-5 border border-violet-500/10">
+            <Flame className="h-7 w-7 md:h-8 md:h-8 text-violet-400" />
           </div>
-          <h1 className="text-4xl font-bold text-foreground mb-3">Confession Wall</h1>
-          <p className="text-muted-foreground text-lg">Post your secrets. No judgement. No identity.</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Confession Wall</h1>
+          <p className="text-muted-foreground text-sm md:text-lg">Post your secrets. No judgement. No identity.</p>
         </div>
 
         {/* Post New Confession */}
@@ -176,22 +176,22 @@ export default function ConfessionWall() {
             className="resize-none min-h-[100px] rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary mb-4"
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold ml-1">Your Name (Hidden 🤫)</label>
+              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-extrabold ml-1">Your Name (Hidden 🤫)</label>
               <Input 
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
                 placeholder="Revealed only if someone pays..."
-                className="h-10 rounded-xl border-0 bg-background/80 text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                className="h-11 rounded-xl border-0 bg-background/80 text-sm focus-visible:ring-1 focus-visible:ring-primary shadow-sm"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold ml-1">Gender (Hidden 🤫)</label>
+              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-extrabold ml-1">Gender (Hidden 🤫)</label>
               <select
                 value={senderGender}
                 onChange={(e) => setSenderGender(e.target.value)}
-                className="flex h-10 w-full items-center justify-between rounded-xl border-0 bg-background/80 px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                className="flex h-11 w-full items-center justify-between rounded-xl border-0 bg-background/80 px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-primary shadow-sm"
               >
                 <option value="">Secret 🤫</option>
                 <option value="Male">Male 👦</option>
@@ -214,24 +214,24 @@ export default function ConfessionWall() {
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-muted-foreground/50">{newConfession.length}/500</span>
+            <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+              <span className="text-[10px] text-muted-foreground/50 font-bold uppercase tracking-tighter">{newConfession.length}/500</span>
               <Button onClick={handlePost} disabled={isPosting || !newConfession.trim()}
-                className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold shadow-lg shadow-violet-500/20 px-6">
-                {isPosting ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="h-4 w-4 mr-2" /> Confess</>}
+                className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold shadow-lg shadow-violet-500/20 px-8 py-5 h-auto transition-transform hover:scale-[1.02] active:scale-95">
+                {isPosting ? <Loader2 className="h-5 w-5 animate-spin" /> : <><Send className="h-5 w-5 mr-2" /> Confess</>}
               </Button>
             </div>
           </div>
         </div>
 
         {/* Filter */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="sticky top-[64px] z-20 py-4 -mx-4 px-4 bg-background/80 backdrop-blur-md border-b border-border/10 mb-6 flex gap-2 overflow-x-auto scrollbar-hide">
           {categories.map(cat => (
             <button key={cat.value} onClick={() => { setFilterCategory(cat.value); setIsLoading(true); }}
-              className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+              className={`px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
                 filterCategory === cat.value
                   ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
-                  : 'bg-secondary/30 text-muted-foreground border border-transparent hover:bg-secondary/50'
+                  : 'bg-secondary/40 text-muted-foreground border border-transparent hover:bg-secondary/60 active:scale-95'
               }`}>
               {cat.label}
             </button>
@@ -259,18 +259,32 @@ export default function ConfessionWall() {
                   border: '1px solid rgba(139,92,246,0.08)', boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
                 }}>
                 <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{getCategoryEmoji(confession.category)}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{getCategoryEmoji(confession.category)}</span>
                     <button 
                       onClick={() => setShowHintsId(showHintsId === confession._id ? null : confession._id)}
-                      className={`p-1.5 rounded-lg transition-all ${showHintsId === confession._id ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-500/10 text-amber-400/40 hover:text-amber-400'}`}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all shadow-lg border ${
+                        showHintsId === confession._id 
+                          ? 'bg-amber-500/30 text-amber-300 border-amber-500/40 scale-95' 
+                          : 'bg-amber-500/15 text-amber-400 border-amber-500/20 hover:bg-amber-500/25 hover:border-amber-500/30 animate-in fade-in duration-500'
+                      }`}
+                      title="Who is this?"
                     >
-                      <Eye className="h-3.5 w-3.5" />
+                      <div className="relative">
+                        <Eye className="h-4 w-4" />
+                        {!showHintsId && !confession.isNameRevealed && (
+                          <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-widest">Who sent this?</span>
                     </button>
                   </div>
-                  <span className="text-xs text-muted-foreground/40">{dayjs(confession.createdAt).fromNow()}</span>
+                  <span className="text-[10px] font-bold text-muted-foreground/30 uppercase tracking-tighter">{dayjs(confession.createdAt).fromNow()}</span>
                 </div>
-                <p className="text-foreground/90 leading-relaxed mb-4">{confession.content}</p>
+                <p className="text-foreground/90 text-sm md:text-base leading-relaxed mb-5 font-medium">{confession.content}</p>
 
                 {/* Hints Section */}
                 {showHintsId === confession._id && (
@@ -288,16 +302,16 @@ export default function ConfessionWall() {
                       )}
                     </div>
 
-                    <div className="flex gap-2 mb-3">
+                    <div className="grid grid-cols-3 gap-2 mb-3">
                       {[
                         { icon: Smartphone, label: 'Device', value: confession.senderDevice || 'Unknown' },
                         { icon: Clock, label: 'Sent At', value: confession.senderTimePeriod || 'Unknown' },
                         { icon: Monitor, label: 'Platform', value: confession.senderPlatform || 'Unknown' },
                       ].map((hint, i) => (
-                        <div key={i} className="flex-1 flex flex-col items-center justify-center py-2 rounded-lg border border-amber-500/5" style={{ background: 'rgba(251,191,36,0.04)' }}>
-                          <hint.icon className="h-3 w-3 text-amber-400/50 mb-1" />
-                          <p className="text-[8px] text-amber-400/40 uppercase tracking-widest font-medium">{hint.label}</p>
-                          <p className="text-[10px] font-bold text-amber-300 mt-0.5">{hint.value}</p>
+                        <div key={i} className="flex flex-col items-center justify-center p-2 rounded-xl border border-amber-500/5 shadow-inner" style={{ background: 'rgba(251,191,36,0.04)' }}>
+                          <hint.icon className="h-3.5 w-3.5 text-amber-400/50 mb-1" />
+                          <p className="text-[7px] text-amber-400/30 uppercase tracking-widest font-black text-center">{hint.label}</p>
+                          <p className="text-[9px] font-black text-amber-300 mt-0.5 text-center leading-tight truncate w-full">{hint.value}</p>
                         </div>
                       ))}
                     </div>
@@ -321,13 +335,13 @@ export default function ConfessionWall() {
                         <Button 
                           onClick={() => handleRevealIdentity(confession._id)} 
                           disabled={isPaymentLoading === confession._id}
-                          size="sm"
-                          className="w-full h-9 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-amber-950 font-bold shadow-lg shadow-amber-500/20"
+                          size="lg"
+                          className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-amber-950 font-black shadow-lg shadow-amber-500/25 transition-transform active:scale-[0.98]"
                         >
                           {isPaymentLoading === confession._id ? (
-                            <><Loader2 className="mr-2 h-3 w-3 animate-spin" /> Verifying...</>
+                            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
                           ) : (
-                            <><Lock className="mr-2 h-3.5 w-3.5" /> Reveal Identity (₹49)</>
+                            <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹49)</>
                           )}
                         </Button>
                       )}
