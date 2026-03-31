@@ -178,7 +178,7 @@ export default function ConfessionWall() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-extrabold ml-1">Your Name (Hidden 🤫)</label>
+              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-extrabold ml-1">Give a Clue (Hidden 🤫)</label>
               <Input 
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
@@ -279,7 +279,7 @@ export default function ConfessionWall() {
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-widest">Who sent this?</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest">Get a Hint</span>
                     </button>
                   </div>
                   <span className="text-[10px] font-bold text-muted-foreground/30 uppercase tracking-tighter">{dayjs(confession.createdAt).fromNow()}</span>
@@ -341,7 +341,7 @@ export default function ConfessionWall() {
                           {isPaymentLoading === confession._id ? (
                             <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
                           ) : (
-                            <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹299)</>
+                            <><Lock className="mr-2 h-4 w-4" /> Unlock Identity (₹299)</>
                           )}
                         </Button>
                       )}

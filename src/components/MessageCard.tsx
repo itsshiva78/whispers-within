@@ -119,7 +119,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
               <Button variant="ghost" size="icon"
                 onClick={() => setShowHints(!showHints)}
                 className={`h-8 w-8 rounded-lg ${showHints ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-400/60 hover:text-amber-400'}`}
-                title="Who sent this?">
+                title="Get a Hint">
                 <Eye className="w-3.5 h-3.5" />
               </Button>
               <Button variant="ghost" size="icon"
@@ -159,7 +159,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
               
               <div className="flex justify-between items-center mb-3">
                 <p className="text-xs font-semibold text-amber-400 flex items-center gap-1.5">
-                  <Eye className="h-3.5 w-3.5" /> Who Sent This?
+                  <Eye className="h-3.5 w-3.5" /> Get a Hint
                 </p>
                 {revealedData && (
                   <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded animate-pulse">
@@ -197,9 +197,9 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                   <Button onClick={handleRevealIdentity} disabled={isPaymentLoading}
                     className="w-full h-10 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-amber-950 font-bold shadow-lg shadow-amber-500/20 transition-all hover:scale-[1.02]">
                     {isPaymentLoading ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
+                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
                     ) : (
-                      <><Lock className="mr-2 h-4 w-4" /> Reveal Identity (₹299)</>
+                      <><Lock className="mr-2 h-4 w-4" /> Unlock Identity (₹299)</>
                     )}
                   </Button>
                 )}
