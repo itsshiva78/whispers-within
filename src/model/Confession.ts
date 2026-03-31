@@ -5,6 +5,12 @@ export interface Confession extends Document {
   category: string;
   likes: number;
   createdAt: Date;
+  senderDevice?: string;
+  senderTimePeriod?: string;
+  senderPlatform?: string;
+  senderName?: string;
+  senderGender?: string;
+  revealedTo?: mongoose.Types.ObjectId[];
 }
 
 const ConfessionSchema: Schema<Confession> = new mongoose.Schema({
@@ -26,6 +32,33 @@ const ConfessionSchema: Schema<Confession> = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  senderDevice: {
+    type: String,
+    default: 'Unknown',
+  },
+  senderTimePeriod: {
+    type: String,
+    default: 'Unknown',
+  },
+  senderPlatform: {
+    type: String,
+    default: 'Unknown',
+  },
+  senderName: {
+    type: String,
+    required: false,
+  },
+  senderGender: {
+    type: String,
+    enum: ['Male', 'Female', 'Other', ''],
+    default: '',
+  },
+  revealedTo: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 const ConfessionModel =

@@ -5,10 +5,13 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { Heart, Loader2, Send, Flame, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, Loader2, Send, Flame, MessageCircle, Share2, Eye, Smartphone, Clock, Monitor, Lock, Sparkles } from 'lucide-react';
 import { ConfessionShareCard } from '@/components/ConfessionShareCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useSession } from 'next-auth/react';
+import { load } from '@cashfreepayments/cashfree-js';
+import { Input } from '@/components/ui/input';
 
 dayjs.extend(relativeTime);
 
@@ -28,6 +31,12 @@ interface ConfessionType {
   category: string;
   likes: number;
   createdAt: string;
+  senderDevice?: string;
+  senderTimePeriod?: string;
+  senderPlatform?: string;
+  senderName?: string;
+  senderGender?: string;
+  isNameRevealed?: boolean;
 }
 
 export default function ConfessionWall() {
@@ -35,10 +44,15 @@ export default function ConfessionWall() {
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
   const [newConfession, setNewConfession] = useState('');
+  const [senderName, setSenderName] = useState('');
+  const [senderGender, setSenderGender] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('general');
   const [filterCategory, setFilterCategory] = useState('all');
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [shareConfession, setShareConfession] = useState<ConfessionType | null>(null);
+  const [isPaymentLoading, setIsPaymentLoading] = useState<string | null>(null);
+  const [showHintsId, setShowHintsId] = useState<string | null>(null);
+  const { data: session } = useSession();
   const { toast } = useToast();
 
   const fetchConfessions = useCallback(async () => {
@@ -55,13 +69,71 @@ export default function ConfessionWall() {
     if (!newConfession.trim()) return;
     setIsPosting(true);
     try {
-      await axios.post('/api/confessions', { content: newConfession, category: selectedCategory });
+      await axios.post('/api/confessions', { 
+        content: newConfession, 
+        category: selectedCategory,
+        senderName: senderName || 'Anonymous',
+        senderGender: senderGender || ''
+      });
       toast({ title: '🤫 Confession posted anonymously!' });
       setNewConfession('');
+      setSenderName('');
+      setSenderGender('');
       fetchConfessions();
     } catch {
       toast({ title: 'Error', description: 'Failed to post confession', variant: 'destructive' });
     } finally { setIsPosting(false); }
+  };
+
+  const handleRevealIdentity = async (confessionId: string) => {
+    if (!session) {
+      toast({ title: 'Please Sign In', description: 'You need to be logged in to reveal identities.', variant: 'destructive' });
+      return;
+    }
+
+    setIsPaymentLoading(confessionId);
+    try {
+      // 1. Create order
+      const { data } = await axios.post('/api/cashfree/create-order-confession', { confessionId });
+      if (!data.success) {
+        toast({ title: 'Failed to create order', description: data.message, variant: 'destructive' });
+        setIsPaymentLoading(null);
+        return;
+      }
+
+      // 2. Open Cashfree Popup
+      const cashfree = await load({ mode: 'production' });
+      const checkoutOptions = {
+        paymentSessionId: data.payment_session_id,
+        redirectTarget: '_modal',
+      };
+
+      cashfree.checkout(checkoutOptions).then((result: any) => {
+        if (result.error) {
+          toast({ title: 'Payment Failed', description: result.error.message, variant: 'destructive' });
+          setIsPaymentLoading(null);
+        }
+        if (result.paymentDetails) {
+          toast({ title: 'Payment Successful', description: 'Verifying...', variant: 'default' });
+          axios.post('/api/cashfree/verify-confession', { orderId: data.order_id }).then(res => {
+            if (res.data.success) {
+              toast({ title: 'Unlocked!', description: 'You can now see who confessed.' });
+              // Update local state to show unmasked info
+              setConfessions(prev => prev.map(c => 
+                c._id === confessionId ? { ...c, senderName: res.data.senderName, senderGender: res.data.senderGender, isNameRevealed: true } : c
+              ));
+            } else {
+              toast({ title: 'Verification Failed', variant: 'destructive', description: res.data.message });
+            }
+          }).finally(() => {
+            setIsPaymentLoading(null);
+          });
+        }
+      });
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.response?.data.message || 'Payment process failed', variant: 'destructive' });
+      setIsPaymentLoading(null);
+    }
   };
 
   const handleLike = async (id: string) => {
@@ -103,6 +175,32 @@ export default function ConfessionWall() {
             maxLength={500}
             className="resize-none min-h-[100px] rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary mb-4"
           />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold ml-1">Your Name (Hidden 🤫)</label>
+              <Input 
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+                placeholder="Revealed only if someone pays..."
+                className="h-10 rounded-xl border-0 bg-background/80 text-sm focus-visible:ring-1 focus-visible:ring-primary"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold ml-1">Gender (Hidden 🤫)</label>
+              <select
+                value={senderGender}
+                onChange={(e) => setSenderGender(e.target.value)}
+                className="flex h-10 w-full items-center justify-between rounded-xl border-0 bg-background/80 px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+              >
+                <option value="">Secret 🤫</option>
+                <option value="Male">Male 👦</option>
+                <option value="Female">Female 👧</option>
+                <option value="Other">Other 🏳️‍🌈</option>
+              </select>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex flex-wrap gap-2">
               {categories.filter(c => c.value !== 'all').map(cat => (
@@ -161,10 +259,82 @@ export default function ConfessionWall() {
                   border: '1px solid rgba(139,92,246,0.08)', boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
                 }}>
                 <div className="flex items-start justify-between gap-3 mb-3">
-                  <span className="text-lg">{getCategoryEmoji(confession.category)}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{getCategoryEmoji(confession.category)}</span>
+                    <button 
+                      onClick={() => setShowHintsId(showHintsId === confession._id ? null : confession._id)}
+                      className={`p-1.5 rounded-lg transition-all ${showHintsId === confession._id ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-500/10 text-amber-400/40 hover:text-amber-400'}`}
+                    >
+                      <Eye className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                   <span className="text-xs text-muted-foreground/40">{dayjs(confession.createdAt).fromNow()}</span>
                 </div>
                 <p className="text-foreground/90 leading-relaxed mb-4">{confession.content}</p>
+
+                {/* Hints Section */}
+                {showHintsId === confession._id && (
+                  <div className="mb-4 p-3 rounded-xl animate-in fade-in slide-in-from-top-2 duration-300"
+                    style={{ background: 'rgba(251,191,36,0.05)', border: '1px solid rgba(251,191,36,0.1)' }}>
+                    
+                    <div className="flex justify-between items-center mb-3">
+                      <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Eye className="h-3 w-3" /> Identity Hints
+                      </p>
+                      {confession.isNameRevealed && (
+                        <span className="text-[9px] uppercase tracking-wider font-bold bg-green-500/20 text-green-400 px-2 py-0.5 rounded">
+                          Unlocked
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex gap-2 mb-3">
+                      {[
+                        { icon: Smartphone, label: 'Device', value: confession.senderDevice || 'Unknown' },
+                        { icon: Clock, label: 'Sent At', value: confession.senderTimePeriod || 'Unknown' },
+                        { icon: Monitor, label: 'Platform', value: confession.senderPlatform || 'Unknown' },
+                      ].map((hint, i) => (
+                        <div key={i} className="flex-1 flex flex-col items-center justify-center py-2 rounded-lg border border-amber-500/5" style={{ background: 'rgba(251,191,36,0.04)' }}>
+                          <hint.icon className="h-3 w-3 text-amber-400/50 mb-1" />
+                          <p className="text-[8px] text-amber-400/40 uppercase tracking-widest font-medium">{hint.label}</p>
+                          <p className="text-[10px] font-bold text-amber-300 mt-0.5">{hint.value}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Reveal Action */}
+                    <div className="pt-2 border-t border-amber-500/10">
+                      {confession.isNameRevealed ? (
+                        <div className="flex items-center gap-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shrink-0">
+                            <Sparkles className="h-4 w-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="text-[9px] uppercase tracking-wider text-amber-400/60 font-medium">Confessed By</p>
+                            <p className="text-xs font-bold text-amber-300 flex items-center gap-2">
+                              {confession.senderName} 
+                              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{confession.senderGender || 'Secret'}</span>
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <Button 
+                          onClick={() => handleRevealIdentity(confession._id)} 
+                          disabled={isPaymentLoading === confession._id}
+                          size="sm"
+                          className="w-full h-9 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-amber-950 font-bold shadow-lg shadow-amber-500/20"
+                        >
+                          {isPaymentLoading === confession._id ? (
+                            <><Loader2 className="mr-2 h-3 w-3 animate-spin" /> Verifying...</>
+                          ) : (
+                            <><Lock className="mr-2 h-3.5 w-3.5" /> Reveal Identity (₹49)</>
+                          )}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between">
                   <span className="text-xs px-2.5 py-1 rounded-full bg-secondary/50 text-muted-foreground capitalize">
                     {confession.category}
