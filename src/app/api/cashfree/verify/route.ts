@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Identity successfully unmasked!',
+      message: 'Hint successfully revealed!',
       senderName: user.messages[messageIndex].senderName || 'Anonymous',
       senderGender: user.messages[messageIndex].senderGender || 'Secret 🤫'
     });

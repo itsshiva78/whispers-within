@@ -293,7 +293,7 @@ export default function ConfessionWall() {
                     
                     <div className="flex justify-between items-center mb-3">
                       <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Eye className="h-3 w-3" /> Identity Hints
+                        <Eye className="h-3 w-3" /> Detailed Hints
                       </p>
                       {confession.isNameRevealed && (
                         <span className="text-[9px] uppercase tracking-wider font-bold bg-green-500/20 text-green-400 px-2 py-0.5 rounded">

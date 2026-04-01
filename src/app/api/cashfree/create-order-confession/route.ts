@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     // Check if already revealed to this user
     const userId = session.user._id;
     if (confession.revealedTo?.some(id => id.toString() === userId.toString())) {
-      return NextResponse.json({ success: false, message: 'Identity already revealed to you' }, { status: 400 });
+      return NextResponse.json({ success: false, message: 'Hint already revealed to you' }, { status: 400 });
     }
 
     const orderId = `conf_${confessionId}_${Date.now()}`;
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       order_meta: {
         return_url: `${(process.env.NEXTAUTH_URL || '').replace('http://', 'https://')}/confessions?order_id={order_id}`,
       },
-      order_note: `Reveal Identity for confession ${confessionId}`,
+      order_note: `Reveal the Hint for confession ${confessionId}`,
     };
 
     const response = await cashfree.PGCreateOrder(orderRequest);

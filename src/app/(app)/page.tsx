@@ -88,7 +88,7 @@ export default function Home() {
                          </div>
                          <Button size="sm" variant="outline" className="border-violet-500/30 text-violet-300 bg-violet-500/10 hover:bg-violet-500/20">
                             <Lock className="w-4 h-4 mr-2"/>
-                            Reveal Identity
+                            Reveal the Hint
                          </Button>
                       </div>
                    </div>

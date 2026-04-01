@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Identity successfully revealed!',
+      message: 'Hint successfully revealed!',
       senderName: confession.senderName || 'Anonymous',
       senderGender: confession.senderGender || 'Secret 🤫'
     });

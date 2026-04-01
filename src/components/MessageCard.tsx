@@ -178,7 +178,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 ))}
               </div>
 
-              {/* Identity Reveal Section */}
+              {/* Hint Reveal Section */}
               <div className="mt-3 pt-3 border-t border-amber-500/10">
                 {revealedData ? (
                   <div className="flex items-center gap-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
@@ -186,7 +186,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                       <Sparkles className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase tracking-wider text-amber-400/60 font-medium">True Identity</p>
+                      <p className="text-[10px] uppercase tracking-wider text-amber-400/60 font-medium">Revealed Hint</p>
                       <p className="text-sm font-bold text-amber-300 flex items-center gap-2">
                         {revealedData.name} 
                         <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{revealedData.gender}</span>
