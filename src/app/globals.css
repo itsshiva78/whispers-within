@@ -69,14 +69,41 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
+  }
+  html, body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-inter), 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-outfit), 'Outfit', sans-serif;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
+  p, li, span, a {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Scrollbar hide utility for horizontal scrollers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Premium Animations */

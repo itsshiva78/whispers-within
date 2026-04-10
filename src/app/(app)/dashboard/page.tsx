@@ -106,7 +106,7 @@ function UserDashboard() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
         {/* Header */}
         <div className="mb-10">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Dashboard</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Dashboard</h1>
           <p className="text-muted-foreground">Manage your whispers and profile</p>
         </div>
 
@@ -123,7 +123,7 @@ function UserDashboard() {
             <h2 className="text-lg font-semibold text-foreground">Your Unique Link</h2>
           </div>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="flex-1 px-4 py-3 rounded-xl text-sm text-muted-foreground font-mono overflow-hidden text-ellipsis whitespace-nowrap"
+            <div className="flex-1 px-4 py-3 rounded-xl text-xs sm:text-sm text-muted-foreground font-mono break-all"
               style={{ background: 'rgba(13, 11, 20, 0.8)', border: '1px solid rgba(139,92,246,0.08)' }}>
               {profileUrl}
             </div>

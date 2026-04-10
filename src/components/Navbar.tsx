@@ -1,15 +1,23 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import { User } from 'next-auth';
-import { LogOut, MessageCircle, Flame } from 'lucide-react';
+import { LogOut, MessageCircle, Flame, Menu, X, BookOpen, HelpCircle, Info } from 'lucide-react';
 
 function Navbar() {
   const { data: session } = useSession();
   const user: User = session?.user;
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { href: '/confessions', label: 'Confessions', icon: Flame },
+    { href: '/blog', label: 'Blog', icon: BookOpen },
+    { href: '/faq', label: 'FAQ', icon: HelpCircle },
+    { href: '/about', label: 'About', icon: Info },
+  ];
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border/30"
@@ -25,18 +33,25 @@ function Navbar() {
             <div className="relative h-9 w-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20 transition-transform group-hover:scale-110">
               <MessageCircle className="h-5 w-5 text-white" />
             </div>
-            <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
+            <span className="font-bold text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
               Whispers Within
             </span>
           </Link>
-          <Link href="/confessions" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-violet-400 transition-colors">
-            <Flame className="h-4 w-4" />
-            <span className="hidden md:inline">Confessions</span>
-          </Link>
+
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-violet-400 hover:bg-violet-500/5 transition-all">
+                <link.icon className="h-4 w-4" />
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {session ? (
             <>
               <Link href="/dashboard" className="hidden md:inline-block font-medium text-sm text-muted-foreground hover:text-violet-400 transition-colors">
@@ -49,11 +64,11 @@ function Navbar() {
                 size="sm"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Log out
+                <span className="hidden sm:inline">Log out</span>
               </Button>
             </>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <Link href="/sign-in">
                 <Button className="h-9 px-5 rounded-lg text-sm font-medium bg-secondary/80 hover:bg-secondary text-foreground border border-border/30" variant="ghost" size="sm">
                   Log in
@@ -66,8 +81,43 @@ function Navbar() {
               </Link>
             </div>
           )}
+
+          {/* Mobile Menu Toggle */}
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-border/20 animate-in fade-in slide-in-from-top-2 duration-200"
+          style={{ background: 'rgba(13, 11, 20, 0.95)', backdropFilter: 'blur(20px)' }}>
+          <div className="px-6 py-4 space-y-1">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-violet-400 hover:bg-violet-500/5 transition-all">
+                <link.icon className="h-4 w-4" />
+                {link.label}
+              </Link>
+            ))}
+            {!session && (
+              <div className="flex gap-3 pt-3 border-t border-border/20 mt-3">
+                <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="flex-1">
+                  <Button className="w-full h-10 rounded-xl text-sm font-medium bg-secondary/80 hover:bg-secondary text-foreground border border-border/30" variant="ghost">
+                    Log in
+                  </Button>
+                </Link>
+                <Link href="/sign-up" onClick={() => setMobileOpen(false)} className="flex-1">
+                  <Button className="w-full h-10 rounded-xl text-sm font-medium bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

@@ -75,7 +75,7 @@ export function StoryTemplateGenerator({ username, profileUrl, onClose }: StoryT
           className="relative w-full max-w-md flex flex-col items-center gap-5 my-8 animate-in fade-in zoom-in-95 duration-300"
           onClick={(e) => e.stopPropagation()}
         >
-          <button onClick={onClose} className="absolute -top-5 -right-2 md:-right-5 z-10 bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors">
+          <button onClick={onClose} className="absolute top-0 right-0 z-10 bg-white/10 hover:bg-white/20 rounded-full p-2.5 transition-colors">
           <X className="w-5 h-5 text-white" />
         </button>
 
@@ -96,7 +96,7 @@ export function StoryTemplateGenerator({ username, profileUrl, onClose }: StoryT
         {/* THE STORY CARD (9:16 for Instagram Stories) */}
         <div ref={cardRef}
           style={{
-            width: '360px', height: '640px', display: 'flex', flexDirection: 'column',
+            width: '100%', maxWidth: '360px', aspectRatio: '9/16', display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center', padding: '40px 28px',
             background: t.bg, borderRadius: '20px',
             position: 'relative', overflow: 'hidden',
