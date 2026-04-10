@@ -60,6 +60,8 @@ export interface User extends Document {
   provider?: string;
   name?: string;
   gender?: string;
+  isPro?: boolean;
+  proExpiryDate?: Date;
 }
 
 // Updated User schema
@@ -108,6 +110,14 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     type: String,
     enum: ['Male', 'Female', 'Other', ''],
     default: '',
+  },
+  isPro: {
+    type: Boolean,
+    default: false,
+  },
+  proExpiryDate: {
+    type: Date,
+    required: false,
   },
   messages: [MessageSchema],
 });

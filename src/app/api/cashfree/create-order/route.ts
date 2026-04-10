@@ -36,15 +36,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'Message not found' }, { status: 404 });
     }
 
-    if (message.isNameRevealed) {
-      return NextResponse.json({ success: false, message: 'Name already revealed' }, { status: 400 });
+    if (user.isPro && user.proExpiryDate && user.proExpiryDate > new Date()) {
+      return NextResponse.json({ success: false, message: 'You are already a Whispers Pro subscriber' }, { status: 400 });
     }
 
     const orderId = `order_${messageId}_${Date.now()}`;
     const customerId = `cust_${session.user._id}`;
     
     const orderRequest = {
-      order_amount: 199.00,
+      order_amount: 499.00,
       order_currency: 'INR',
       order_id: orderId,
       customer_details: {
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       order_meta: {
         return_url: `${(process.env.NEXTAUTH_URL || '').replace('http://', 'https://')}/dashboard?order_id={order_id}`,
       },
-      order_note: `Unmask Sender for message ${messageId}`,
+      order_note: `Unlock Whispers Pro (1 Month)`,
     };
 
     const response = await cashfree.PGCreateOrder(orderRequest);

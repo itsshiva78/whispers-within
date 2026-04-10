@@ -57,12 +57,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'Message not found' }, { status: 404 });
     }
 
+    // Grant Pro Status for 30 days
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 30);
+    user.isPro = true;
+    user.proExpiryDate = expiryDate;
+
+    // Also reveal the specific message they clicked on
     user.messages[messageIndex].isNameRevealed = true;
     await user.save();
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Hint successfully revealed!',
+      message: 'Whispers Pro Unlocked!',
       senderName: user.messages[messageIndex].senderName || 'Anonymous',
       senderGender: user.messages[messageIndex].senderGender || 'Secret 🤫'
     });

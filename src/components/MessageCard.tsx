@@ -29,11 +29,12 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const [showHints, setShowHints] = useState(false);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const msgAny = message as any;
-  const [revealedData, setRevealedData] = useState<{name: string, gender: string} | null>(
-    msgAny.isNameRevealed ? { name: msgAny.senderName || 'Anonymous', gender: msgAny.senderGender || 'Secret 🤫' } : null
-  );
   const { data: session } = useSession();
   const user = session?.user as User;
+
+  const [revealedData, setRevealedData] = useState<{name: string, gender: string} | null>(
+    (msgAny.isNameRevealed || user?.isPro) ? { name: msgAny.senderName || 'Anonymous', gender: msgAny.senderGender || 'Secret 🤫' } : null
+  );
 
   const handleDeleteConfirm = async () => {
     try {
@@ -161,7 +162,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 <p className="text-xs font-semibold text-amber-400 flex items-center gap-1.5">
                   <Eye className="h-3.5 w-3.5" /> Get a Hint
                 </p>
-                {revealedData && (
+                {(revealedData || user?.isPro) && (
                   <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded animate-pulse">
                     Unlocked
                   </span>
@@ -178,9 +179,8 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 ))}
               </div>
 
-              {/* Hint Reveal Section */}
               <div className="mt-3 pt-3 border-t border-amber-500/10">
-                {revealedData ? (
+                {(revealedData || user?.isPro) ? (
                   <div className="flex items-center gap-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
                     <div className="h-10 w-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0">
                       <Sparkles className="h-5 w-5 text-white" />
@@ -188,8 +188,8 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                     <div>
                       <p className="text-[10px] uppercase tracking-wider text-amber-400/60 font-medium">Revealed Hint</p>
                       <p className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                        {revealedData.name} 
-                        <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{revealedData.gender}</span>
+                        {revealedData?.name || msgAny.senderName || 'Anonymous'} 
+                        <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{revealedData?.gender || msgAny.senderGender || 'Secret 🤫'}</span>
                       </p>
                     </div>
                   </div>
@@ -199,7 +199,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                     {isPaymentLoading ? (
                       <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
                     ) : (
-                      <><Lock className="mr-2 h-4 w-4" /> Reveal the Hint (₹199)</>
+                      <><Lock className="mr-2 h-4 w-4" /> Unlock Whispers Pro (₹499)</>
                     )}
                   </Button>
                 )}

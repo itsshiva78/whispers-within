@@ -101,12 +101,14 @@ export const authOptions: NextAuthOptions = {
           token.isVerified = dbUser.isVerified;
           token.isAcceptingMessages = dbUser.isAcceptingMessages;
           token.username = dbUser.username;
+          token.isPro = dbUser.isPro;
         }
       } else if (user) {
         token._id = user._id?.toString();
         token.isVerified = user.isVerified;
         token.isAcceptingMessages = user.isAcceptingMessages;
         token.username = user.username;
+        token.isPro = user.isPro;
       }
       return token;
     },
@@ -116,6 +118,7 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.isAcceptingMessages = token.isAcceptingMessages;
         session.user.username = token.username;
+        session.user.isPro = token.isPro;
       }
       return session;
     },

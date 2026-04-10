@@ -43,6 +43,30 @@ export async function POST(request: Request) {
       senderGender
     };
 
+    // AI Zero-Tolerance Moderation
+    try {
+      const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+      if (apiKey) {
+        const { GoogleGenerativeAI } = await import('@google/generative-ai');
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const prompt = `You are a content moderation AI for an anonymous app. Analyze the following message and return ONLY the exact string "TOXIC" if it contains severe cyberbullying, hate speech, threats, or explicit self-harm. If it is safe, playful banter, or a general confession, return ONLY the exact string "SAFE". Message: "${content}"`;
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text().trim().toUpperCase();
+        
+        if (responseText.includes("TOXIC")) {
+          console.warn(`[AI Moderation] Silently discarded toxic message to ${username}`);
+          // Return generic success to the toxic sender so they don't know they were blocked
+          return Response.json(
+            { message: 'Message sent successfully', success: true },
+            { status: 201 }
+          );
+        }
+      }
+    } catch (aiError) {
+      console.error('[AI Moderation] Failed, allowing message bypass:', aiError);
+    }
+
     // Push the new message to the user's messages array
     user.messages.push(newMessage as Message);
     await user.save();
