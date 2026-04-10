@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../auth/[...nextauth]/options';
 import ConfessionModel from '@/model/Confession';
+import UserModel from '@/model/User';
 import dbConnect from '@/lib/dbConnect';
 // @ts-ignore
 import { Cashfree, CFEnvironment } from 'cashfree-pg';
@@ -58,9 +59,19 @@ export async function POST(request: NextRequest) {
       await confession.save();
     }
 
+    // Grant Pro Status globally
+    const user = await UserModel.findById(userId);
+    if (user) {
+      const expiryDate = new Date();
+      expiryDate.setDate(expiryDate.getDate() + 30);
+      user.isPro = true;
+      user.proExpiryDate = expiryDate;
+      await user.save();
+    }
+
     return NextResponse.json({ 
       success: true, 
-      message: 'Hint successfully revealed!',
+      message: 'Whispers Pro Unlocked!',
       senderName: confession.senderName || 'Anonymous',
       senderGender: confession.senderGender || 'Secret 🤫'
     });

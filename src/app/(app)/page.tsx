@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: 'How does the "Reveal Hint" feature work?',
-    a: 'When posting a confession, senders can optionally leave a hidden clue (like a nickname or emoji) and their gender. Readers can pay a small fee (₹199) to unlock these hints. This creates a fun guessing-game element. Importantly, no real identity is ever revealed — only the clue the sender chose to leave.',
+    a: 'When posting a confession, senders can optionally leave a hidden clue (like a nickname or emoji) and their gender. Readers can upgrade to a Whispers Pro subscription (₹499) to unlock these hints across the entire platform. This creates a fun guessing-game element. Importantly, no real identity is ever revealed — only the clue the sender chose to leave.',
   },
   {
     q: 'Is my data safe?',
@@ -122,7 +122,7 @@ export default function Home() {
                          </div>
                          <Button size="sm" variant="outline" className="border-violet-500/30 text-violet-300 bg-violet-500/10 hover:bg-violet-500/20">
                             <Lock className="w-4 h-4 mr-2"/>
-                            Reveal the Hint
+                            Unlock Whispers Pro (₹499)
                          </Button>
                       </div>
                    </div>

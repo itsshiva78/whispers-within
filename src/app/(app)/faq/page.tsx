@@ -19,7 +19,7 @@ const faqCategories = [
       },
       {
         q: 'Is Whispers Within free to use?',
-        a: 'Yes, the core features of Whispers Within are completely free. This includes creating an account, receiving anonymous messages, managing your dashboard, and posting on the Confession Wall. The only paid feature is the optional "Reveal Hint" action on the Confession Wall, where you can pay a small fee to see the clue a confession sender left about their identity. Creating and sending messages is always free.',
+        a: 'Yes, the core features of Whispers Within are completely free. This includes creating an account, receiving anonymous messages, managing your dashboard, and posting on the Confession Wall. The only paid feature is the optional "Whispers Pro" subscription, where you can pay to unlock hints and clues on the Confession Wall and your personal dashboard.',
       },
       {
         q: 'What devices does Whispers Within support?',
@@ -77,7 +77,7 @@ const faqCategories = [
     faqs: [
       {
         q: 'How does the "Reveal Hint" feature work?',
-        a: 'When someone posts a confession, they can optionally leave a hidden clue about their identity — this could be a nickname, an emoji, a riddle, or any other hint they choose. They can also optionally share their gender. These hints are hidden by default. Other users can pay a small fee (₹199) to unlock and see these hints. Importantly, no real identity is ever revealed — only the clue that the sender voluntarily chose to leave. If a sender did not leave a hint, the revealed information will simply show "Anonymous".',
+        a: 'When someone posts a confession, they can optionally leave a hidden clue about their identity — this could be a nickname, an emoji, a riddle, or any other hint they choose. They can also optionally share their gender. These hints are hidden by default. Other users can upgrade to Whispers Pro (₹499) to unlock and see these hints globally for 30 days. Importantly, no real identity is ever revealed — only the clue that the sender voluntarily chose to leave. If a sender did not leave a hint, the revealed information will simply show "Anonymous".',
       },
       {
         q: 'What information is revealed when I pay for a hint?',

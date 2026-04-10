@@ -31,17 +31,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'Confession not found' }, { status: 404 });
     }
 
-    // Check if already revealed to this user
+    // Check if already revealed to this user or if user is Pro
     const userId = session.user._id;
-    if (confession.revealedTo?.some(id => id.toString() === userId.toString())) {
-      return NextResponse.json({ success: false, message: 'Hint already revealed to you' }, { status: 400 });
+    const isPro = (session.user as any).isPro;
+    if (confession.revealedTo?.some((id: any) => id.toString() === userId.toString()) || isPro) {
+      return NextResponse.json({ success: false, message: 'You already have access to hints' }, { status: 400 });
     }
 
     const orderId = `conf_${confessionId}_${Date.now()}`;
     const customerId = `cust_${session.user._id}`;
     
     const orderRequest = {
-      order_amount: 199.00,
+      order_amount: 499.00,
       order_currency: 'INR',
       order_id: orderId,
       customer_details: {
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
       order_meta: {
         return_url: `${(process.env.NEXTAUTH_URL || '').replace('http://', 'https://')}/confessions?order_id={order_id}`,
       },
-      order_note: `Reveal the Hint for confession ${confessionId}`,
+      order_note: `Unlock Whispers Pro (1 Month)`,
     };
 
     const response = await cashfree.PGCreateOrder(orderRequest);

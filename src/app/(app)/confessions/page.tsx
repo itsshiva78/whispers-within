@@ -53,6 +53,7 @@ export default function ConfessionWall() {
   const [isPaymentLoading, setIsPaymentLoading] = useState<string | null>(null);
   const [showHintsId, setShowHintsId] = useState<string | null>(null);
   const { data: session } = useSession();
+  const user = session?.user as any;
   const { toast } = useToast();
 
   const fetchConfessions = useCallback(async () => {
@@ -272,7 +273,7 @@ export default function ConfessionWall() {
                     >
                       <div className="relative">
                         <Eye className="h-4 w-4" />
-                        {!showHintsId && !confession.isNameRevealed && (
+                        {!showHintsId && !confession.isNameRevealed && !user?.isPro && (
                           <span className="absolute -top-1 -right-1 flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
@@ -295,7 +296,7 @@ export default function ConfessionWall() {
                       <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
                         <Eye className="h-3 w-3" /> Detailed Hints
                       </p>
-                      {confession.isNameRevealed && (
+                      {(confession.isNameRevealed || user?.isPro) && (
                         <span className="text-[9px] uppercase tracking-wider font-bold bg-green-500/20 text-green-400 px-2 py-0.5 rounded">
                           Unlocked
                         </span>
@@ -318,7 +319,7 @@ export default function ConfessionWall() {
 
                     {/* Reveal Action */}
                     <div className="pt-2 border-t border-amber-500/10">
-                      {confession.isNameRevealed ? (
+                      {(confession.isNameRevealed || user?.isPro) ? (
                         <div className="flex items-center gap-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
                           <div className="h-8 w-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shrink-0">
                             <Sparkles className="h-4 w-4 text-white" />
@@ -326,7 +327,7 @@ export default function ConfessionWall() {
                           <div>
                             <p className="text-[9px] uppercase tracking-wider text-amber-400/60 font-medium">Confessed By</p>
                             <p className="text-xs font-bold text-amber-300 flex items-center gap-2">
-                              {confession.senderName} 
+                              {confession.senderName || 'Anonymous'} 
                               <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{confession.senderGender || 'Secret'}</span>
                             </p>
                           </div>
@@ -341,7 +342,7 @@ export default function ConfessionWall() {
                           {isPaymentLoading === confession._id ? (
                             <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
                           ) : (
-                            <><Lock className="mr-2 h-4 w-4" /> Reveal the Hint (₹199)</>
+                            <><Lock className="mr-2 h-4 w-4" /> Unlock Whispers Pro (₹499)</>
                           )}
                         </Button>
                       )}
