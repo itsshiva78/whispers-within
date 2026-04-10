@@ -66,6 +66,16 @@ export default function ConfessionWall() {
 
   useEffect(() => { fetchConfessions(); }, [fetchConfessions]);
 
+  // Load liked confessions from local storage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('whispers_liked_confessions');
+      if (stored) {
+        setLikedIds(new Set(JSON.parse(stored)));
+      }
+    } catch { /* ignore */ }
+  }, []);
+
   const handlePost = async () => {
     if (!newConfession.trim()) return;
     setIsPosting(true);
@@ -140,9 +150,17 @@ export default function ConfessionWall() {
   const handleLike = async (id: string) => {
     if (likedIds.has(id)) return;
     try {
+      // Optimistically update UI
+      setLikedIds(prev => {
+        const next = new Set(prev).add(id);
+        localStorage.setItem('whispers_liked_confessions', JSON.stringify(Array.from(next)));
+        return next;
+      });
+      setConfessions(prev => prev.map(c => c._id === id ? { ...c, likes: c.likes + 1 } : c));
+      
       const res = await axios.post(`/api/confessions/${id}/like`);
+      // Update with single source of truth from backend
       setConfessions(prev => prev.map(c => c._id === id ? { ...c, likes: res.data.likes } : c));
-      setLikedIds(prev => new Set(prev).add(id));
     } catch { /* ignore */ }
   };
 
