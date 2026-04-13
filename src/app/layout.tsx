@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import './globals.css';
 import AuthProvider from '../context/AuthProvider';
 import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@vercel/analytics/next';
 
 const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), {
   ssr: false,
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           {children}
           <Toaster />
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
