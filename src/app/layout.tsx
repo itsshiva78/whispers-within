@@ -14,15 +14,30 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'sw
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Whispers Within | Real Feedback from Real People',
-  description: 'Whispers Within is a platform for honest, weightless feedback. Send and receive messages anonymously.',
+  title: {
+    default: 'Whispers Within | Anonymous Feedback & Confession Platform',
+    template: '%s | Whispers Within',
+  },
+  description: "Whispers Within is India's most trusted anonymous messaging platform. Share honest feedback, post confessions anonymously, and discover what people really think — all with complete privacy and AI-powered safety. Join thousands of users having real conversations.",
   metadataBase: new URL('https://www.whispers-within.in'),
-  alternates: {
-    canonical: '/',
+  keywords: ['anonymous messaging', 'anonymous feedback', 'confession platform', 'anonymous questions', 'NGL alternative', 'honest feedback India', 'anonymous confession wall'],
+  authors: [{ name: 'Whispers Within Team', url: 'https://www.whispers-within.in/about' }],
+  creator: 'Whispers Within',
+  publisher: 'Whispers Within',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
-    title: 'Whispers Within | Anonymous Feedback Platform',
-    description: 'Real feedback from real people. Start your anonymous conversation today.',
+    title: 'Whispers Within | Anonymous Feedback & Confession Platform',
+    description: "India's most trusted anonymous messaging platform. Share honest feedback, post confessions, and have real conversations — privately and safely.",
     url: 'https://www.whispers-within.in',
     siteName: 'Whispers Within',
     images: [
@@ -30,22 +45,46 @@ export const metadata: Metadata = {
         url: '/logo.png',
         width: 800,
         height: 600,
-        alt: 'Whispers Within Logo',
+        alt: 'Whispers Within — Anonymous Feedback Platform',
       },
     ],
-    locale: 'en_US',
+    locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Whispers Within | Anonymous Feedback Platform',
-    description: 'Real feedback from real people. Start your anonymous conversation today.',
+    description: "India's most trusted anonymous messaging and confession platform.",
     images: ['/logo.png'],
   },
   icons: {
     icon: '/favicon.png',
     apple: '/logo.png',
   },
+  verification: {
+    google: 'K5a05gOjY8xeMlGuw-ZO0jc5hL84EW0tG8uEe7p5rWg',
+  },
+};
+
+// Organization JSON-LD — critical E-E-A-T trust signal for Google AdSense & Search
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Whispers Within',
+  url: 'https://www.whispers-within.in',
+  logo: 'https://www.whispers-within.in/logo.png',
+  description: "India's most trusted anonymous messaging and confession platform.",
+  foundingDate: '2024',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'shivasap27@gmail.com',
+    contactType: 'customer support',
+    availableLanguage: 'English',
+  },
+  sameAs: [
+    'https://instagram.com',
+    'https://github.com',
+  ],
 };
 
 interface RootLayoutProps {
@@ -57,6 +96,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" className="dark">
       <head>
         <meta name="google-adsense-account" content="ca-pub-4666306883399247" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans`}>
         <AuthProvider>

@@ -49,6 +49,7 @@ function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
                             <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+                            <li><Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link></li>
                         </ul>
 
                         <h3 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 mt-8">Social</h3>

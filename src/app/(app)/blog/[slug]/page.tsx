@@ -158,9 +158,20 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const article = articles[params.slug];
   if (!article) return { title: 'Article Not Found' };
   return {
-    title: `${article.title} | Whispers Within Blog`,
+    title: article.title,
     description: article.description,
-    openGraph: { title: article.title, description: article.description },
+    alternates: { canonical: `https://www.whispers-within.in/blog/${params.slug}` },
+    authors: [{ name: 'Whispers Within Team', url: 'https://www.whispers-within.in/about' }],
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      type: 'article',
+      publishedTime: new Date(article.date).toISOString(),
+      authors: ['https://www.whispers-within.in/about'],
+      url: `https://www.whispers-within.in/blog/${params.slug}`,
+      siteName: 'Whispers Within',
+      images: [{ url: 'https://www.whispers-within.in/logo.png', width: 800, height: 600, alt: article.title }],
+    },
   };
 }
 
@@ -168,8 +179,33 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
   const article = articles[params.slug];
   if (!article) notFound();
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    author: {
+      '@type': 'Organization',
+      name: 'Whispers Within Team',
+      url: 'https://www.whispers-within.in/about',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Whispers Within',
+      logo: { '@type': 'ImageObject', url: 'https://www.whispers-within.in/logo.png' },
+    },
+    datePublished: new Date(article.date).toISOString(),
+    dateModified: new Date(article.date).toISOString(),
+    image: 'https://www.whispers-within.in/logo.png',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.whispers-within.in/blog/${params.slug}` },
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">
         {/* Back Link */}
         <Link href="/blog" className="inline-flex items-center gap-2 text-violet-400 text-sm font-medium hover:text-violet-300 transition-colors mb-8">
