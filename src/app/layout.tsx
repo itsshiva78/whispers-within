@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Inter, Outfit } from 'next/font/google';
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
 import './globals.css';
 import AuthProvider from '../context/AuthProvider';
 import { Toaster } from '@/components/ui/toaster';
@@ -107,6 +108,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           {children}
           <Toaster />
         </AuthProvider>
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4666306883399247"
+        />
       </body>
     </html>
   );
