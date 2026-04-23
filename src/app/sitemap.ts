@@ -67,12 +67,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
-    {
-      url: `${baseUrl}/confessions`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
+    // NOTE: /confessions is excluded from sitemap because its layout sets
+    // robots: { index: false }. Including it here would send conflicting signals.
     {
       url: `${baseUrl}/privacy`,
       lastModified: new Date(),
