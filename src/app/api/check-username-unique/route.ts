@@ -72,6 +72,7 @@ import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/model/User';
 import { z } from 'zod';
 import { usernameValidation } from '@/schemas/signUpSchema';
+import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -81,6 +82,14 @@ const UsernameQuerySchema = z.object({
 });
 
 export async function GET(request: Request) {
+  // Rate limit: 30 checks per minute per IP
+  const ip = getClientIp(request);
+  const { limited, retryAfterMs } = rateLimit(`check-user:${ip}`, {
+    maxRequests: 30,
+    windowMs: 60_000,
+  });
+  if (limited) return rateLimitResponse(retryAfterMs);
+
   await dbConnect();
 
   try {

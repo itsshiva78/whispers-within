@@ -43,11 +43,12 @@ export async function POST(request: Request) {
     }
 
     // Successfully updated message acceptance status
+    // Security: Never return full user document — it contains password hash, verify codes, etc.
     return Response.json(
       {
         success: true,
         message: 'Message acceptance status updated successfully',
-        updatedUser,
+        isAcceptingMessages: updatedUser.isAcceptingMessages,
       },
       { status: 200 }
     );

@@ -21,10 +21,16 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
         try {
+          // Security: Never use RegExp with user input — prevents NoSQL injection.
+          // An attacker could send identifier=".*" to match any account.
+          const identifier = credentials.identifier?.trim().toLowerCase();
+          if (!identifier) {
+            throw new Error('Email or username is required');
+          }
           const user = await UserModel.findOne({
             $or: [
-              { email: { $regex: new RegExp(`^${credentials.identifier}$`, 'i') } },
-              { username: { $regex: new RegExp(`^${credentials.identifier}$`, 'i') } },
+              { email: identifier },
+              { username: identifier },
             ],
           });
           if (!user) {

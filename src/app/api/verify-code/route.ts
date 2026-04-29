@@ -1,12 +1,35 @@
 import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/model/User';
+import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rateLimit';
 
 export async function POST(request: Request) {
+  // Rate limit: 5 attempts per 15 minutes per IP (prevents brute-force on 6-digit codes)
+  const ip = getClientIp(request);
+  const { limited, retryAfterMs } = rateLimit(`verify:${ip}`, {
+    maxRequests: 5,
+    windowMs: 15 * 60_000,
+  });
+  if (limited) return rateLimitResponse(retryAfterMs);
+
   // Connect to the database
   await dbConnect();
 
   try {
     const { username, code } = await request.json();
+
+    if (!username || typeof username !== 'string') {
+      return Response.json(
+        { success: false, message: 'Username is required' },
+        { status: 400 }
+      );
+    }
+    if (!code || typeof code !== 'string' || code.length !== 6) {
+      return Response.json(
+        { success: false, message: 'A valid 6-digit verification code is required' },
+        { status: 400 }
+      );
+    }
+
     const decodedUsername = decodeURIComponent(username);
     const user = await UserModel.findOne({ username: decodedUsername });
 
@@ -16,6 +39,13 @@ export async function POST(request: Request) {
         { status: 404 }
       );
     }
+
+    // Also rate-limit per-user to prevent distributed brute-force
+    const { limited: userLimited, retryAfterMs: userRetry } = rateLimit(`verify-user:${decodedUsername}`, {
+      maxRequests: 5,
+      windowMs: 15 * 60_000,
+    });
+    if (userLimited) return rateLimitResponse(userRetry);
 
     // Check if the code is correct and not expired
     const isCodeValid = user.verifyCode === code;
