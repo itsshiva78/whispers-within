@@ -5,6 +5,9 @@ import { BookOpen, ArrowRight, Clock, User } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Blog & Guides | Whispers Within',
   description: 'Read articles, guides, and insights about anonymous messaging, digital privacy, online safety, and making the most of Whispers Within. Tips, tutorials, and thought-provoking reads.',
+  alternates: {
+    canonical: '/blog',
+  },
   openGraph: {
     title: 'Blog & Guides | Whispers Within',
     description: 'Articles, guides, and insights about anonymous messaging, privacy, and online safety.',

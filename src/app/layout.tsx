@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   },
   description: "Whispers Within is India's most trusted anonymous messaging platform. Share honest feedback, post confessions anonymously, and discover what people really think — all with complete privacy and AI-powered safety. Join thousands of users having real conversations.",
   metadataBase: new URL('https://www.whispers-within.in'),
+  alternates: {
+    canonical: '/',
+  },
   keywords: ['anonymous messaging', 'anonymous feedback', 'confession platform', 'anonymous questions', 'NGL alternative', 'honest feedback India', 'anonymous confession wall'],
   authors: [{ name: 'Whispers Within Team', url: 'https://www.whispers-within.in/about' }],
   creator: 'Whispers Within',

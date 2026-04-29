@@ -5,6 +5,9 @@ import type { ReactNode } from 'react';
 // user-generated, not editorial. Indexing it can dilute the overall site
 // quality score and contribute to "thin content" AdSense violations.
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/confessions',
+  },
   robots: {
     index: false,
     follow: false,

@@ -1,8 +1,6 @@
 import { MetadataRoute } from 'next'
-import UserModel from '@/model/User';
-import dbConnect from '@/lib/dbConnect';
  
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.whispers-within.in';
   
   // Static routes
@@ -89,22 +87,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  try {
-    await dbConnect();
-    // Fetch all users to include their profiles in the sitemap
-    const users = await UserModel.find({}, 'username createdAt').lean();
-    
-    const userProfiles: MetadataRoute.Sitemap = users.map((user: any) => ({
-      url: `${baseUrl}/u/${String(user.username)}`,
-      lastModified: user.createdAt ? new Date(user.createdAt) : new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    }));
-    
-    return [...staticRoutes, ...userProfiles];
-  } catch (error) {
-    console.error("Error generating sitemap:", error);
-    // Fallback to purely static routes if DB fails
-    return staticRoutes;
-  }
+  return staticRoutes;
 }

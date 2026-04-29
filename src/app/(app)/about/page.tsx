@@ -4,6 +4,9 @@ import { Shield, Heart, Eye, Code, Sparkles, Users, Lock, Zap } from 'lucide-rea
 export const metadata: Metadata = {
   title: 'About Whispers Within | Our Mission, Story & Values',
   description: 'Learn about Whispers Within — the anonymous feedback platform built to foster honest conversations. Discover our mission, values, safety measures, and the story behind the platform.',
+  alternates: {
+    canonical: '/about',
+  },
   openGraph: {
     title: 'About Whispers Within | Our Mission & Story',
     description: 'Discover the story behind Whispers Within and our commitment to honest, anonymous feedback.',
