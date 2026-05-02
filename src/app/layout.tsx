@@ -78,7 +78,11 @@ const organizationSchema = {
   url: 'https://www.whispers-within.in',
   logo: 'https://www.whispers-within.in/logo.png',
   description: "India's most trusted anonymous messaging and confession platform.",
-  foundingDate: '2024',
+  foundingDate: '2026',
+  founder: {
+    '@type': 'Person',
+    name: 'Shiva',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'shivasap27@gmail.com',
@@ -86,8 +90,8 @@ const organizationSchema = {
     availableLanguage: 'English',
   },
   sameAs: [
-    'https://instagram.com',
-    'https://github.com',
+    'https://www.whispers-within.in/about',
+    'https://www.whispers-within.in/blog',
   ],
 };
 

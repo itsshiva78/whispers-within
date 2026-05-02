@@ -5,8 +5,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/dashboard', '/api/', '/_next/', '/private/', '/sign-in', '/sign-up', '/verify'],
+      disallow: ['/dashboard', '/api/', '/_next/', '/private/', '/sign-in', '/sign-up', '/verify/', '/complete-profile', '/confessions', '/u/'],
     },
     sitemap: 'https://www.whispers-within.in/sitemap.xml',
   }
 }
+
