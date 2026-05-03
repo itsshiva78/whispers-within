@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       senderGender: safeSenderGender,
     };
 
-    // AI Zero-Tolerance Moderation (fail-CLOSED: reject on error)
+    // AI Zero-Tolerance Moderation (fail-OPEN: bypass on error)
     try {
       const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
       if (apiKey) {
@@ -104,13 +104,9 @@ export async function POST(request: Request) {
         }
       }
     } catch (aiError) {
-      // SECURITY: Fail-CLOSED — if AI moderation fails, reject the message.
-      // This prevents attackers from bypassing moderation by overwhelming the AI API.
-      console.error('[AI Moderation] Failed, rejecting message for safety:', aiError);
-      return Response.json(
-        { message: 'Message could not be processed right now. Please try again later.', success: false },
-        { status: 503 }
-      );
+      // SECURITY: Fail-OPEN — if AI moderation fails, allow the message.
+      // This prevents legitimate users from being blocked due to API issues.
+      console.warn('[AI Moderation] Failed, bypassing moderation for availability:', aiError);
     }
 
     // Push the new message to the user's messages array

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const allowedGenders = ['Male', 'Female', 'Other', ''];
     const safeSenderGender = typeof senderGender === 'string' && allowedGenders.includes(senderGender) ? senderGender : '';
 
-    // AI Moderation for confessions (fail-CLOSED)
+    // AI Moderation for confessions (fail-OPEN)
     try {
       const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
       if (apiKey) {
@@ -49,12 +49,8 @@ export async function POST(request: Request) {
         }
       }
     } catch (aiError) {
-      // SECURITY: Fail-CLOSED — reject confession if moderation is unavailable
-      console.error('[AI Moderation] Failed for confession, rejecting:', aiError);
-      return Response.json(
-        { success: false, message: 'Could not process your confession right now. Please try again later.' },
-        { status: 503 }
-      );
+      // SECURITY: Fail-OPEN — allow confession if moderation is unavailable
+      console.warn('[AI Moderation] Failed for confession, bypassing:', aiError);
     }
 
     // Capture hint metadata from request
