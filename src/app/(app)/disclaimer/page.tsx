@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Disclaimer | Whispers Within',
+  title: 'Disclaimer',
   description: 'Read the Whispers Within disclaimer. Understand the limitations of liability regarding user-generated anonymous content, third-party links, and the nature of the anonymous messaging service.',
   alternates: {
     canonical: '/disclaimer',
   },
   openGraph: {
-    title: 'Disclaimer | Whispers Within',
+    title: 'Disclaimer',
     description: 'Important disclaimers regarding user-generated content and the Whispers Within anonymous messaging platform.',
   },
 };

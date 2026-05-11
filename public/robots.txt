@@ -1,14 +1,11 @@
 User-agent: *
 Allow: /
-Disallow: /u/
 Disallow: /dashboard/
 Disallow: /sign-in
 Disallow: /sign-up
 Disallow: /verify/
 Disallow: /complete-profile
-Disallow: /confessions
 Disallow: /api/
-Disallow: /_next/
 Disallow: /private/
 
 Sitemap: https://www.whispers-within.in/sitemap.xml

@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Whispers Within',
+  title: 'Privacy Policy',
   description: 'Read the Whispers Within Privacy Policy. Learn how we collect, use, protect, and handle your personal information and data when you use our anonymous messaging platform.',
   alternates: {
     canonical: '/privacy',
   },
   openGraph: {
-    title: 'Privacy Policy | Whispers Within',
+    title: 'Privacy Policy',
     description: 'How we handle your privacy and personal data at Whispers Within.',
   },
 };

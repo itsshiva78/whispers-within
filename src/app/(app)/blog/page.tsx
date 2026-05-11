@@ -1,66 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, ArrowRight, Clock, User } from 'lucide-react';
+import { BLOG_INDEX_ARTICLES } from '@/data/blogIndex';
 
 export const metadata: Metadata = {
-  title: 'Blog & Guides | Whispers Within',
+  title: 'Blog & Guides',
   description: 'Read articles, guides, and insights about anonymous messaging, digital privacy, online safety, and making the most of Whispers Within. Tips, tutorials, and thought-provoking reads.',
   alternates: {
     canonical: '/blog',
   },
   openGraph: {
-    title: 'Blog & Guides | Whispers Within',
+    title: 'Blog & Guides',
     description: 'Articles, guides, and insights about anonymous messaging, privacy, and online safety.',
   },
 };
-
-const articles = [
-  {
-    slug: 'power-of-anonymous-feedback',
-    title: 'The Power of Anonymous Feedback: Why Honesty Matters More Than Ever',
-    excerpt: 'In a world of curated social media personas, anonymous feedback creates space for the conversations that truly matter. Explore why removing identity barriers leads to more genuine, meaningful communication.',
-    category: 'Insights',
-    readTime: '5 min read',
-    date: 'April 8, 2026',
-    color: 'violet',
-  },
-  {
-    slug: 'how-to-use-instagram-stories',
-    title: 'How to Use Whispers Within on Instagram Stories: A Complete Guide',
-    excerpt: 'A step-by-step tutorial on sharing your anonymous link on Instagram Stories, using our built-in Story Template Generator, and maximizing the messages you receive from your followers.',
-    category: 'Tutorial',
-    readTime: '4 min read',
-    date: 'April 5, 2026',
-    color: 'pink',
-  },
-  {
-    slug: 'staying-safe-online',
-    title: 'Staying Safe Online: Our Commitment to User Privacy and Security',
-    excerpt: 'A deep dive into the security measures, AI moderation, encryption standards, and privacy-first architecture that keeps every Whispers Within user safe and protected.',
-    category: 'Safety',
-    readTime: '6 min read',
-    date: 'April 1, 2026',
-    color: 'green',
-  },
-  {
-    slug: 'creative-ways-anonymous-messaging',
-    title: '7 Creative Ways to Use Anonymous Messaging Beyond Instagram Q&A',
-    excerpt: 'From classroom feedback to team retrospectives to birthday party games — discover innovative and fun ways to use anonymous messaging in your daily life, beyond the usual social media Q&A.',
-    category: 'Ideas',
-    readTime: '5 min read',
-    date: 'March 28, 2026',
-    color: 'amber',
-  },
-  {
-    slug: 'digital-trust-anonymity',
-    title: 'Understanding Digital Trust: How Anonymity Builds More Honest Communities',
-    excerpt: 'Why do people share more honestly when their identity is hidden? Explore the psychology behind anonymous communication and how platforms like Whispers Within foster authentic digital communities.',
-    category: 'Insights',
-    readTime: '7 min read',
-    date: 'March 22, 2026',
-    color: 'blue',
-  },
-];
 
 const colorMap: Record<string, string> = {
   violet: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
@@ -92,7 +45,7 @@ export default function BlogPage() {
       <section className="pb-24">
         <div className="max-w-5xl mx-auto px-6">
           <div className="space-y-6">
-            {articles.map((article) => (
+            {BLOG_INDEX_ARTICLES.map((article) => (
               <Link key={article.slug} href={`/blog/${article.slug}`} className="block group">
                 <article className="p-6 md:p-8 rounded-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl"
                   style={{ background: 'rgba(21, 18, 31, 0.5)', border: '1px solid rgba(139,92,246,0.08)' }}>

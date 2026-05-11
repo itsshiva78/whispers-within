@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.whispers-within.in/faq',
   },
   openGraph: {
-    title: 'FAQ | Whispers Within',
+    title: 'Frequently Asked Questions',
     description: 'Everything you need to know about anonymous messaging, privacy, safety, and Whispers Within features.',
     url: 'https://www.whispers-within.in/faq',
     siteName: 'Whispers Within',

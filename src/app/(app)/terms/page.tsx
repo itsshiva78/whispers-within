@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Whispers Within',
+  title: 'Terms of Service',
   description: 'Read the Whispers Within Terms of Service. Understand the rules, responsibilities, and agreements for using our anonymous messaging and confession platform.',
   alternates: {
     canonical: '/terms',
   },
   openGraph: {
-    title: 'Terms of Service | Whispers Within',
+    title: 'Terms of Service',
     description: 'Terms and conditions for using the Whispers Within anonymous messaging platform.',
   },
 };

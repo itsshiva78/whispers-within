@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { BLOG_INDEX_ARTICLES } from '@/data/blogIndex';
  
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.whispers-within.in';
@@ -35,36 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/blog/power-of-anonymous-feedback`,
-      lastModified: new Date('2026-04-08'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog/how-to-use-instagram-stories`,
-      lastModified: new Date('2026-04-05'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog/staying-safe-online`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog/creative-ways-anonymous-messaging`,
-      lastModified: new Date('2026-03-28'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog/digital-trust-anonymity`,
-      lastModified: new Date('2026-03-22'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
     // NOTE: /confessions is excluded from sitemap because its layout sets
     // robots: { index: false }. Including it here would send conflicting signals.
     {
@@ -87,5 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  return staticRoutes;
+  const blogRoutes: MetadataRoute.Sitemap = BLOG_INDEX_ARTICLES.map((article) => ({
+    url: `${baseUrl}/blog/${article.slug}`,
+    lastModified: new Date(article.lastModified),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...blogRoutes];
 }
