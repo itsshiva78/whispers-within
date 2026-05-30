@@ -1,52 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface Message extends Document {
-  content: string;
-  createdAt: Date;
-  senderDevice?: string;
-  senderTimePeriod?: string;
-  senderPlatform?: string;
-  senderName?: string;
-  senderGender?: string;
-  isNameRevealed?: boolean;
-}
 
-const MessageSchema: Schema<Message> = new mongoose.Schema({
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-  senderDevice: {
-    type: String,
-    default: 'Unknown',
-  },
-  senderTimePeriod: {
-    type: String,
-    default: 'Unknown',
-  },
-  senderPlatform: {
-    type: String,
-    default: 'Unknown',
-  },
-  senderName: {
-    type: String,
-    required: false,
-  },
-  senderGender: {
-    type: String,
-    enum: ['Male', 'Female', 'Other', ''],
-    default: '',
-  },
-  isNameRevealed: {
-    type: Boolean,
-    default: false,
-  },
-});
 
 export interface User extends Document {
   username: string;
@@ -56,12 +10,13 @@ export interface User extends Document {
   verifyCodeExpiry?: Date;
   isVerified: boolean;
   isAcceptingMessages: boolean;
-  messages: Message[];
   provider?: string;
   name?: string;
   gender?: string;
   isPro?: boolean;
   proExpiryDate?: Date;
+  emailNotifications?: boolean;
+  phone?: string;
 }
 
 // Updated User schema
@@ -98,6 +53,14 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  emailNotifications: {
+    type: Boolean,
+    default: true,
+  },
+  phone: {
+    type: String,
+    required: false,
+  },
   provider: {
     type: String,
     default: 'credentials',
@@ -119,7 +82,6 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     type: Date,
     required: false,
   },
-  messages: [MessageSchema],
 });
 
 const UserModel =

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../auth/[...nextauth]/options';
 import UserModel from '@/model/User';
+import MessageModel from '@/model/Message';
 import dbConnect from '@/lib/dbConnect';
 // @ts-ignore
 import { Cashfree, CFEnvironment } from 'cashfree-pg';
@@ -51,9 +52,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
     }
 
-    const messageIndex = user.messages.findIndex((m: any) => m._id.toString() === messageId);
+    const message = await MessageModel.findOneAndUpdate(
+      { _id: messageId, userId: session.user._id },
+      { $set: { isNameRevealed: true } },
+      { new: true }
+    );
     
-    if (messageIndex === -1) {
+    if (!message) {
       return NextResponse.json({ success: false, message: 'Message not found' }, { status: 404 });
     }
 
@@ -62,16 +67,13 @@ export async function POST(request: NextRequest) {
     expiryDate.setDate(expiryDate.getDate() + 30);
     user.isPro = true;
     user.proExpiryDate = expiryDate;
-
-    // Also reveal the specific message they clicked on
-    user.messages[messageIndex].isNameRevealed = true;
     await user.save();
 
     return NextResponse.json({ 
       success: true, 
       message: 'Whispers Pro Unlocked!',
-      senderName: user.messages[messageIndex].senderName || 'Anonymous',
-      senderGender: user.messages[messageIndex].senderGender || 'Secret 🤫'
+      senderName: message.senderName || 'Anonymous',
+      senderGender: message.senderGender || 'Secret 🤫'
     });
 
   } catch (error) {

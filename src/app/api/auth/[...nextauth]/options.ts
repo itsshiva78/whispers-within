@@ -82,7 +82,6 @@ export const authOptions: NextAuthOptions = {
               isVerified: true,
               isAcceptingMessages: true,
               provider: 'google',
-              messages: [],
             });
           } else if (!existingUser.isVerified) {
             // Auto-verify if they sign in with Google

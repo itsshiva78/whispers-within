@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { X, Share2, Eye, Smartphone, Clock, Monitor, Lock, Loader2, Sparkles } from 'lucide-react';
-import { Message } from '@/model/User';
+import { Message } from '@/model/Message';
 import { load } from '@cashfreepayments/cashfree-js';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -72,7 +72,6 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         }
         if (result.redirect) {
           // It redirected, handle verification on reload
-          console.log('Redirected to bank');
         }
         if (result.paymentDetails) {
           // Payment completed, verify on server

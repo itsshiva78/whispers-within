@@ -1,6 +1,6 @@
 import UserModel from '@/model/User';
 import dbConnect from '@/lib/dbConnect';
-import { Message } from '@/model/User';
+import MessageModel from '@/model/Message';
 import { resend } from '@/lib/resend';
 import NewMessageEmail from '../../../../emails/NewMessageEmail';
 import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rateLimit';
@@ -109,13 +109,20 @@ export async function POST(request: Request) {
       console.warn('[AI Moderation] Failed, bypassing moderation for availability:', aiError);
     }
 
-    // Push the new message to the user's messages array
-    user.messages.push(newMessage as Message);
-    await user.save();
+    // Save the new message to the standalone Message collection
+    await MessageModel.create({
+      userId: user._id,
+      content: content.trim(),
+      senderDevice,
+      senderTimePeriod,
+      senderPlatform,
+      senderName: safeSenderName,
+      senderGender: safeSenderGender,
+    });
 
     // Send notification email
     try {
-      if (user.email) {
+      if (user.email && user.emailNotifications !== false) {
         await resend.emails.send({
           from: 'no-reply@whispers-within.in',
           to: user.email, // Dynamic recipient from database

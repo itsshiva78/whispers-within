@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/options';
 import dbConnect from '@/lib/dbConnect';
-import UserModel from '@/model/User';
+import MessageModel from '@/model/Message';
 
 export async function DELETE() {
   await dbConnect();
@@ -12,14 +12,7 @@ export async function DELETE() {
   }
 
   try {
-    const result = await UserModel.updateOne(
-      { _id: session.user._id },
-      { $set: { messages: [] } }
-    );
-
-    if (result.modifiedCount === 0) {
-      return Response.json({ success: false, message: 'No messages to delete' }, { status: 404 });
-    }
+    await MessageModel.deleteMany({ userId: session.user._id });
 
     return Response.json({ success: true, message: 'All messages deleted successfully' });
   } catch (error) {

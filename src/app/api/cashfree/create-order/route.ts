@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../auth/[...nextauth]/options';
 import UserModel from '@/model/User';
+import MessageModel from '@/model/Message';
 import dbConnect from '@/lib/dbConnect';
 // @ts-ignore
 import { Cashfree, CFEnvironment } from 'cashfree-pg';
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
     }
 
-    const message = user.messages.find((m: any) => m._id.toString() === messageId);
+    const message = await MessageModel.findOne({ _id: messageId, userId: user._id });
     if (!message) {
       return NextResponse.json({ success: false, message: 'Message not found' }, { status: 404 });
     }
@@ -44,12 +45,12 @@ export async function POST(request: NextRequest) {
     const customerId = `cust_${session.user._id}`;
     
     const orderRequest = {
-      order_amount: 499.00,
+      order_amount: process.env.PRO_SUBSCRIPTION_PRICE ? parseFloat(process.env.PRO_SUBSCRIPTION_PRICE) : 499.00,
       order_currency: 'INR',
       order_id: orderId,
       customer_details: {
         customer_id: customerId,
-        customer_phone: '9999999999',
+        customer_phone: user.phone || '9999999999',
         customer_email: user.email || 'customer@example.com',
         customer_name: user.username || 'Whispers User',
       },
