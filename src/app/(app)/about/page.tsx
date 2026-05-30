@@ -53,8 +53,8 @@ export default function AboutPage() {
             </div>
             <div className="rounded-2xl p-8 text-center"
               style={{ background: 'rgba(21, 18, 31, 0.6)', border: '1px solid rgba(139,92,246,0.1)' }}>
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-violet-500/20">
-                <Sparkles className="h-10 w-10 text-white" />
+              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 shadow-lg shadow-violet-500/20 border-2 border-violet-500/30">
+                <img src="/avatar.jpg" alt="Shiva" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-2xl font-bold mb-2">Shiva</h3>
               <p className="text-violet-400 text-sm font-medium mb-4">Founder & Developer</p>
@@ -155,21 +155,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Open Source Philosophy */}
-      <section className="py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center mx-auto mb-6">
-            <Code className="h-8 w-8 text-violet-400" />
-          </div>
-          <h2 className="text-3xl font-extrabold mb-4">Built in the Open</h2>
-          <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-            Whispers Within is an open-source project. We believe that transparency is the cornerstone of trust — especially for a platform that handles sensitive, anonymous communication. By making our code publicly available, we invite scrutiny, welcome contributions, and demonstrate that our privacy promises are backed by real, verifiable implementation.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            Our technology stack includes Next.js for the frontend and server-side rendering, MongoDB for data persistence, NextAuth.js for secure authentication, and AI-powered content moderation. The entire platform is designed to be lightweight, fast, and accessible from any device with a modern web browser — no app downloads required.
-          </p>
-        </div>
-      </section>
+
     </div>
   );
 }

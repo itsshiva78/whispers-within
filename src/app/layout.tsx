@@ -84,7 +84,7 @@ const organizationSchema = {
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'shivasap27@gmail.com',
+    email: 'support@whispers-within.in',
     contactType: 'customer support',
     availableLanguage: 'English',
   },

@@ -44,7 +44,7 @@ const supportFaqs = [
   },
   {
     q: 'How long does a support response take?',
-    a: 'We aim to respond to all support requests within 24-48 hours. Abuse reports and security-related inquiries are given highest priority and may be resolved faster.',
+    a: 'We aim to respond to general support requests within 24-48 hours. Abuse reports and security-related inquiries are given highest priority — expect a response within a few hours.',
   },
 ];
 
@@ -56,13 +56,24 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate sending — in production, this could hit an API endpoint
-    const mailtoLink = `mailto:shivasap27@gmail.com?subject=[${formData.category}] Support Request from ${formData.name}&body=${encodeURIComponent(formData.message)}%0A%0AFrom: ${formData.email}`;
-    window.open(mailtoLink, '_blank');
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        alert('Failed to send message. Please try the direct email below.');
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1000);
+    }
   };
 
   return (
@@ -74,7 +85,7 @@ export default function ContactPage() {
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Contact & Support</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Have questions, need help, or want to share feedback? Our team is here to assist you. We value every message and typically respond within 24-48 hours.
+            Have questions, need help, or want to share feedback? Our team is here to assist you. We value every message and typically respond within 24-48 hours (Priority — within a few hours for abuse reports).
           </p>
         </div>
       </section>
@@ -114,7 +125,7 @@ export default function ContactPage() {
               <CheckCircle2 className="h-16 w-16 text-green-400 mx-auto mb-6" />
               <h3 className="text-2xl font-bold mb-3">Message Sent!</h3>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Thank you for reaching out. We have received your message and will respond within 24-48 hours. Please check the email client that opened to complete sending, if needed.
+                Thank you for reaching out. We have received your message and will respond within 24-48 hours (sooner for abuse reports). Please check the email client that opened to complete sending, if needed.
               </p>
               <Button onClick={() => { setIsSubmitted(false); setFormData({ name: '', email: '', category: 'general', message: '' }); }}
                 className="mt-6 bg-violet-600 hover:bg-violet-500 text-white rounded-xl">
@@ -170,11 +181,11 @@ export default function ContactPage() {
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Mail className="h-4 w-4 text-violet-400" />
               <span>Direct email: </span>
-              <a href="mailto:shivasap27@gmail.com" className="text-violet-400 hover:underline font-medium">shivasap27@gmail.com</a>
+              <a href="mailto:support@whispers-within.in" className="text-violet-400 hover:underline font-medium">support@whispers-within.in</a>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4 text-violet-400" />
-              <span>Response time: 24-48 hours</span>
+              <span>Response time: 24-48 hours (Priority for Abuse Reports)</span>
             </div>
           </div>
         </div>

@@ -121,7 +121,7 @@ export default function DisclaimerPage() {
             </p>
             <div className="p-5 rounded-xl mt-2" style={{ background: 'rgba(21, 18, 31, 0.5)', border: '1px solid rgba(139,92,246,0.08)' }}>
               <p className="font-semibold text-foreground">Whispers Within</p>
-              <p>Email: <a href="mailto:shivasap27@gmail.com" className="text-violet-400 hover:underline">shivasap27@gmail.com</a></p>
+              <p>Email: <a href="mailto:support@whispers-within.in" className="text-violet-400 hover:underline">support@whispers-within.in</a></p>
               <p>Website: <a href="https://www.whispers-within.in" className="text-violet-400 hover:underline">www.whispers-within.in</a></p>
               <p className="mt-3 text-sm">For abuse or urgent reports, visit our <a href="/contact" className="text-violet-400 hover:underline">Contact & Support page</a>.</p>
             </div>

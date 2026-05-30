@@ -17,8 +17,10 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-4xl mx-auto px-6 py-16 md:py-24">
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Privacy Policy</h1>
-          <p className="text-muted-foreground">Last updated: April 10, 2026</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Privacy Policy</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Last Updated: May 30, 2026
+          </p>
         </div>
 
         <div className="space-y-10 text-muted-foreground leading-relaxed">
@@ -117,14 +119,14 @@ export default function PrivacyPage() {
               <li><strong className="text-foreground">Right to Withdraw Consent:</strong> Where we rely on your consent to process your data, you have the right to withdraw that consent at any time.</li>
             </ul>
             <p>
-              To exercise any of these rights, please contact us at <a href="mailto:shivasap27@gmail.com" className="text-violet-400 hover:underline">shivasap27@gmail.com</a>. We will respond to your request within 30 days.
+              To exercise any of these rights, please contact us at <a href="mailto:support@whispers-within.in" className="text-violet-400 hover:underline">support@whispers-within.in</a>. We will respond to your request within 30 days.
             </p>
           </section>
 
-          <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-foreground">8. Children&apos;s Privacy</h2>
-            <p>
-              Whispers Within is not intended for children under the age of 13. We do not knowingly collect, use, or disclose personal information from children under 13. If we become aware that we have collected personal data from a child under 13 without verification of parental consent, we will take steps to remove that information from our servers promptly. If you believe that we might have any information from or about a child under 13, please contact us at <a href="mailto:shivasap27@gmail.com" className="text-violet-400 hover:underline">shivasap27@gmail.com</a>.
+          <section>
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">8. Children&apos;s Privacy</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Whispers Within is not intended for children under the age of 18. We do not knowingly collect, use, or disclose personal information from children under 18. If we become aware that we have collected personal data from a child under 18 without verification of parental consent, we will take steps to remove that information from our servers promptly. If you believe that we might have any information from or about a child under 18, please contact us at <a href="mailto:support@whispers-within.in" className="text-violet-400 hover:underline">support@whispers-within.in</a>.
             </p>
           </section>
 
@@ -162,7 +164,7 @@ export default function PrivacyPage() {
             </p>
             <div className="p-5 rounded-xl mt-2" style={{ background: 'rgba(21, 18, 31, 0.5)', border: '1px solid rgba(139,92,246,0.08)' }}>
               <p className="font-semibold text-foreground">Whispers Within</p>
-              <p>Email: <a href="mailto:shivasap27@gmail.com" className="text-violet-400 hover:underline">shivasap27@gmail.com</a></p>
+              <p>Email: <a href="mailto:support@whispers-within.in" className="text-violet-400 hover:underline">support@whispers-within.in</a></p>
               <p>Website: <a href="https://www.whispers-within.in" className="text-violet-400 hover:underline">www.whispers-within.in</a></p>
             </div>
           </section>

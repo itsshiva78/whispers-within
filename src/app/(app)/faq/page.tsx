@@ -103,7 +103,7 @@ const faqCategories = [
       },
       {
         q: 'Is there a minimum age requirement?',
-        a: 'Yes. You must be at least 13 years old to create an account and use Whispers Within. We do not knowingly collect personal information from children under 13. If we become aware that a user is under 13, we will take steps to deactivate their account and remove their data. If you believe a minor under 13 is using the platform, please contact us so we can take appropriate action.',
+        a: 'Yes. You must be at least 18 years old to create an account and use Whispers Within. We do not knowingly collect personal information from children under 18. If we become aware that a user is under 18, we will take steps to deactivate their account and remove their data. If you believe a minor under 18 is using the platform, please contact us so we can take appropriate action.',
       },
     ],
   },
@@ -121,7 +121,7 @@ const faqCategories = [
       },
       {
         q: 'How do I delete my account?',
-        a: 'To delete your account and all associated data, please contact us at shivasap27@gmail.com with your account email address and a request for deletion. We will process your request within 30 days and permanently remove all your account data, received messages, and profile information from our servers. Please note that anonymous confessions you may have posted on the Confession Wall cannot be traced back to your account and will remain as community content.',
+        a: 'To delete your account and all associated data, please contact us at support@whispers-within.in with your account email address and a request for deletion. We will process your request within 30 days and permanently remove all your account data, received messages, and profile information from our servers. Please note that anonymous confessions you may have posted on the Confession Wall cannot be traced back to your account and will remain as community content.',
       },
     ],
   },
@@ -139,8 +139,26 @@ export default function FAQPage() {
     ),
   })).filter(cat => cat.faqs.length > 0);
 
+  const allFaqs = faqCategories.flatMap(cat => cat.faqs);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[180px]"

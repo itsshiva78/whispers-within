@@ -17,8 +17,10 @@ export default function TermsPage() {
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-4xl mx-auto px-6 py-16 md:py-24">
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Terms of Service</h1>
-          <p className="text-muted-foreground">Last updated: April 10, 2026</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Terms of Service</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Last Updated: May 30, 2026
+          </p>
         </div>
 
         <div className="space-y-10 text-muted-foreground leading-relaxed">
@@ -54,7 +56,7 @@ export default function TermsPage() {
               To access certain features of the Platform, you must create a user account. When registering for an account, you agree to the following:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>You must be at least 13 years of age to create an account and use the Platform.</li>
+              <li>You must be at least 18 years of age to create an account and use the Platform.</li>
               <li>You must provide accurate, current, and complete information during the registration process.</li>
               <li>You are responsible for maintaining the confidentiality of your account credentials, including your password.</li>
               <li>You are solely responsible for all activities that occur under your account.</li>
@@ -186,7 +188,7 @@ export default function TermsPage() {
             </p>
             <div className="p-5 rounded-xl mt-2" style={{ background: 'rgba(21, 18, 31, 0.5)', border: '1px solid rgba(139,92,246,0.08)' }}>
               <p className="font-semibold text-foreground">Whispers Within</p>
-              <p>Email: <a href="mailto:shivasap27@gmail.com" className="text-violet-400 hover:underline">shivasap27@gmail.com</a></p>
+              <p>Email: <a href="mailto:support@whispers-within.in" className="text-violet-400 hover:underline">support@whispers-within.in</a></p>
               <p>Website: <a href="https://www.whispers-within.in" className="text-violet-400 hover:underline">www.whispers-within.in</a></p>
             </div>
           </section>

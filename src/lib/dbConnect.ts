@@ -1,25 +1,30 @@
 import mongoose from 'mongoose';
 
-type ConnectionObject = {
-  isConnected?: number;
-};
+const MONGODB_URI = process.env.MONGODB_URI || '';
 
-const connection: ConnectionObject = {};
+let cached = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
 
 async function dbConnect(): Promise<void> {
-  // Check if we have a connection to the database or if it's currently connecting
-  if (connection.isConnected) {
+  if (cached.conn) {
     return;
   }
-
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
   try {
-    // Attempt to connect to the database
-    const db = await mongoose.connect(process.env.MONGODB_URI || '', {});
-
-    connection.isConnected = db.connections[0].readyState;
+    cached.conn = await cached.promise;
   } catch (error) {
+    cached.promise = null;
     console.error('Database connection failed:', error);
-    // Do not exit the process, just throw the error so the API can handle it
     throw new Error('Database connection failed');
   }
 }

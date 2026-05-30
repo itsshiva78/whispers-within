@@ -120,19 +120,20 @@ export async function POST(request: Request) {
       senderGender: safeSenderGender,
     });
 
-    // Send notification email
+    // Send notification email asynchronously to avoid blocking the response
     try {
       if (user.email && user.emailNotifications !== false) {
-        await resend.emails.send({
+        resend.emails.send({
           from: 'no-reply@whispers-within.in',
           to: user.email, // Dynamic recipient from database
           subject: 'Whispers Within: New Message',
           react: NewMessageEmail({ username: user.username, message: content }),
+        }).catch((emailError) => {
+          console.error('Error sending notification email:', emailError);
         });
       }
-    } catch (emailError) {
-      console.error('Error sending notification email:', emailError);
-      // Don't fail the request if email fails
+    } catch (error) {
+      console.error('Error dispatching email:', error);
     }
 
     return Response.json(

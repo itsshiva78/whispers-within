@@ -12,6 +12,16 @@ export interface BlogIndexArticle {
 export const BLOG_INDEX_ARTICLES: BlogIndexArticle[] = [
   // --- Newest first ---
   {
+    slug: 'best-ngl-alternative-in-india-2026',
+    title: 'Best NGL Alternative in India 2026 - Whispers Within',
+    excerpt: 'Looking for an NGL alternative in India? Discover why Whispers Within is the top anonymous messaging app in 2026 with better features, privacy, and zero ads.',
+    category: 'Tutorial',
+    readTime: '4 min read',
+    color: 'violet',
+    date: 'May 30, 2026',
+    lastModified: '2026-05-30',
+  },
+  {
     slug: 'anonymous-feedback-for-startup-teams',
     title: 'Anonymous Feedback for Startup Teams: Build Culture Before It Breaks',
     excerpt: 'How anonymous feedback saved a 5-person startup from a $200K mistake and why every early-stage team needs honest communication channels.',

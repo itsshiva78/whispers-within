@@ -76,8 +76,11 @@ import { post as anonymousMessagingForEventFeedback } from './posts/anonymous-me
 import { post as anonymousMessagingInMentalHealthSupport } from './posts/anonymous-messaging-in-mental-health-support';
 import { post as anonymousFeedbackAndSchoolCulture } from './posts/anonymous-feedback-and-school-culture';
 
+import { post as bestNglAlternativeInIndia } from './posts/best-ngl-alternative-in-india-2026';
+
 export const blogPosts: BlogPost[] = [
   // Newest first
+  bestNglAlternativeInIndia,
   anonymousFeedbackForStartupTeams,
   anonymousMessagingVsDataHarvestingApps,
   sharingYourLinkOnSnapchatGuide,

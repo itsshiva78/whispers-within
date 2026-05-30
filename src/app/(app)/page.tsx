@@ -15,7 +15,16 @@ export default function Home() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'Whispers Within',
+                url: 'https://www.whispers-within.in',
+                logo: 'https://www.whispers-within.in/icon.png',
+                description: 'The ultimate anonymous feedback platform for honest conversations.',
+              },
+              {
               '@context': 'https://schema.org',
               '@type': 'FAQPage',
               mainEntity: [
@@ -44,7 +53,7 @@ export default function Home() {
                   },
                 },
               ],
-            }),
+            }]),
           }}
         />
         {/* Ambient Background Effects */}
@@ -195,7 +204,7 @@ export default function Home() {
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-bold uppercase tracking-wider mb-4">
                 <Star className="h-3.5 w-3.5" /> Why Choose Us
               </span>
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-5">Built for Honest Conversations</h2>
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-5">The Best NGL Alternative in India for Honest Conversations</h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
                 In a world of curated feeds and filtered photos, genuine feedback is rare. Whispers Within creates a safe space where people can be completely honest with you — and you can finally hear what they have been holding back.
               </p>

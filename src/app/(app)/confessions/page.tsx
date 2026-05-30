@@ -178,7 +178,10 @@ export default function ConfessionWall() {
             <Flame className="h-7 w-7 md:h-8 md:h-8 text-violet-400" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Confession Wall</h1>
-          <p className="text-muted-foreground text-sm md:text-lg">Post your secrets. No judgement. No identity.</p>
+          <h2 className="sr-only">Anonymous Confession Wall</h2>
+          <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            Welcome to the ultimate anonymous confession wall. Read the deepest secrets, hilarious moments, and unfiltered truths shared by users worldwide. Use the filters to browse by mood, or anonymously submit your own confession. No judgement, no identity.
+          </p>
         </div>
 
         {/* Post New Confession */}

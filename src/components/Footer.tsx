@@ -54,16 +54,6 @@ function Footer() {
 
                         <h3 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 mt-8">Social</h3>
                         <ul className="space-y-3 text-sm">
-                            <li>
-                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                                    Instagram
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                                    GitHub
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>

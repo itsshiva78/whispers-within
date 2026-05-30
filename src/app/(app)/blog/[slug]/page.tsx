@@ -24,7 +24,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
       authors: ['https://www.whispers-within.in/about'],
       url: `https://www.whispers-within.in/blog/${params.slug}`,
       siteName: 'Whispers Within',
-      images: [{ url: 'https://www.whispers-within.in/logo.png', width: 800, height: 600, alt: article.title }],
+      images: [{ url: `https://www.whispers-within.in/api/og?title=${encodeURIComponent(article.title)}`, width: 1200, height: 630, alt: article.title }],
     },
   };
 }
@@ -88,11 +88,11 @@ function renderContent(content: string) {
       const srcMatch = trimmed.match(/\]\(([^)]+)\)/);
       if (srcMatch) {
         return (
-          <figure key={i} className="my-6">
+          <figure key={i} className="my-6 relative w-full h-[400px]">
             <img
               src={srcMatch[1]}
               alt={altMatch?.[1] || ''}
-              className="rounded-xl w-full object-cover max-h-[400px]"
+              className="rounded-xl w-full h-full object-cover"
               loading="lazy"
             />
           </figure>
@@ -148,7 +148,7 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
     },
     datePublished: new Date(article.date).toISOString(),
     dateModified: new Date(article.date).toISOString(),
-    image: 'https://www.whispers-within.in/logo.png',
+    image: `https://www.whispers-within.in/api/og?title=${encodeURIComponent(article.title)}`,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.whispers-within.in/blog/${params.slug}` },
   };
 
@@ -159,10 +159,14 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
       <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">
-        {/* Back Link */}
-        <Link href="/blog" className="inline-flex items-center gap-2 text-violet-400 text-sm font-medium hover:text-violet-300 transition-colors mb-8">
-          <ArrowLeft className="h-4 w-4" /> Back to all articles
-        </Link>
+        {/* Breadcrumbs */}
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground font-medium mb-8">
+          <Link href="/" className="hover:text-violet-400 transition-colors">Home</Link>
+          <span className="text-muted-foreground/50">/</span>
+          <Link href="/blog" className="hover:text-violet-400 transition-colors">Blog</Link>
+          <span className="text-muted-foreground/50">/</span>
+          <span className="text-foreground truncate max-w-[200px] sm:max-w-[400px]">{article.title}</span>
+        </nav>
 
         {/* Article Header */}
         <header className="mb-12">
