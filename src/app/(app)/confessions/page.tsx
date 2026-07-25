@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { Heart, Loader2, Send, Flame, MessageCircle, Share2, Eye, Smartphone, Clock, Monitor, Lock, Sparkles } from 'lucide-react';
 import { ConfessionShareCard } from '@/components/ConfessionShareCard';
+import { SkeletonGrid } from '@/components/MessageCardSkeleton';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useSession } from 'next-auth/react';
@@ -262,9 +263,7 @@ export default function ConfessionWall() {
 
         {/* Confessions Grid */}
         {isLoading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-violet-400" />
-          </div>
+          <SkeletonGrid count={4} />
         ) : confessions.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 rounded-2xl"
             style={{ background: 'rgba(21, 18, 31, 0.4)', border: '1px dashed rgba(139,92,246,0.15)' }}>

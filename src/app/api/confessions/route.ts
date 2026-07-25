@@ -3,6 +3,7 @@ import ConfessionModel from '@/model/Confession';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]/options';
 import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rateLimit';
+import { confessionSchema } from '@/schemas/confessionSchema';
 
 export async function POST(request: Request) {
   // Rate limit: 5 confessions per 10 minutes per IP
@@ -15,22 +16,18 @@ export async function POST(request: Request) {
 
   await dbConnect();
   try {
-    const { content, category, senderName, senderGender } = await request.json();
-
-    if (!content || typeof content !== 'string' || content.trim().length === 0) {
-      return Response.json({ success: false, message: 'Confession content is required' }, { status: 400 });
+    const body = await request.json();
+    const validation = confessionSchema.safeParse(body);
+    if (!validation.success) {
+      return Response.json(
+        { success: false, message: validation.error.issues[0].message },
+        { status: 400 }
+      );
     }
-
-    if (content.length > 500) {
-      return Response.json({ success: false, message: 'Confession must be under 500 characters' }, { status: 400 });
-    }
-
-    // Sanitize optional fields
-    const allowedCategories = ['general', 'love', 'funny', 'secret', 'regret', 'gratitude'];
-    const safeCategory = typeof category === 'string' && allowedCategories.includes(category) ? category : 'general';
-    const safeSenderName = typeof senderName === 'string' ? senderName.slice(0, 50).trim() : undefined;
-    const allowedGenders = ['Male', 'Female', 'Other', ''];
-    const safeSenderGender = typeof senderGender === 'string' && allowedGenders.includes(senderGender) ? senderGender : '';
+    const { content, category, senderName, senderGender } = validation.data;
+    const safeCategory = category;
+    const safeSenderName = senderName;
+    const safeSenderGender = senderGender;
 
     // AI Moderation for confessions (fail-OPEN)
     try {

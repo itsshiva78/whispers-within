@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AcceptMessageSchema } from '@/schemas/acceptMessageSchema';
 import { StoryTemplateGenerator } from '@/components/StoryTemplateGenerator';
+import { SkeletonGrid } from '@/components/MessageCardSkeleton';
 import { Instagram } from 'lucide-react';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -221,20 +222,24 @@ function UserDashboard() {
         </div>
 
         {/* Messages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {messages.length > 0 ? (
-            messages.map((message) => (
-              <MessageCard key={String(message._id)} message={message} onMessageDelete={handleDeleteMessage} />
-            ))
-          ) : (
-            <div className="col-span-2 flex flex-col items-center justify-center py-20 rounded-2xl"
-              style={{ background: 'rgba(21, 18, 31, 0.4)', border: '1px dashed rgba(139,92,246,0.15)' }}>
-              <MessageCircle className="h-12 w-12 text-violet-400/30 mb-4" />
-              <p className="text-muted-foreground font-medium">No whispers yet</p>
-              <p className="text-sm text-muted-foreground/50 mt-1">Share your link to start receiving messages</p>
-            </div>
-          )}
-        </div>
+        {isLoading ? (
+          <SkeletonGrid count={6} />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {messages.length > 0 ? (
+              messages.map((message) => (
+                <MessageCard key={String(message._id)} message={message} onMessageDelete={handleDeleteMessage} />
+              ))
+            ) : (
+              <div className="col-span-2 flex flex-col items-center justify-center py-20 rounded-2xl"
+                style={{ background: 'rgba(21, 18, 31, 0.4)', border: '1px dashed rgba(139,92,246,0.15)' }}>
+                <MessageCircle className="h-12 w-12 text-violet-400/30 mb-4" />
+                <p className="text-muted-foreground font-medium">No whispers yet</p>
+                <p className="text-sm text-muted-foreground/50 mt-1">Share your link to start receiving messages</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {showStoryGenerator && (

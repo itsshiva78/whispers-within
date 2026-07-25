@@ -4,6 +4,7 @@ import MessageModel from '@/model/Message';
 import { resend } from '@/lib/resend';
 import NewMessageEmail from '../../../../emails/NewMessageEmail';
 import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rateLimit';
+import { messageSchema } from '@/schemas/messageSchema';
 
 // Max message length to prevent DB abuse
 const MAX_MESSAGE_LENGTH = 2000;
@@ -19,26 +20,13 @@ export async function POST(request: Request) {
   if (limited) return rateLimitResponse(retryAfterMs);
 
   await dbConnect();
-  const { username, content, senderName, senderGender } = await request.json();
+  const body = await request.json();
+  const { username, content, senderName, senderGender } = body;
 
-  // Input validation
-  if (!username || typeof username !== 'string') {
+  const validation = messageSchema.safeParse({ content, senderName, senderGender });
+  if (!validation.success) {
     return Response.json(
-      { message: 'Invalid username', success: false },
-      { status: 400 }
-    );
-  }
-
-  if (!content || typeof content !== 'string' || content.trim().length === 0) {
-    return Response.json(
-      { message: 'Message content is required', success: false },
-      { status: 400 }
-    );
-  }
-
-  if (content.length > MAX_MESSAGE_LENGTH) {
-    return Response.json(
-      { message: `Message must be under ${MAX_MESSAGE_LENGTH} characters`, success: false },
+      { message: validation.error.issues[0].message, success: false },
       { status: 400 }
     );
   }
