@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { Loader2, Send, Sparkles, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CardHeader, CardContent, Card } from '@/components/ui/card';
-import { useCompletion } from 'ai/react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -25,11 +24,22 @@ const initialMessageString = "What's your favorite movie?||Do you have any pets?
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = decodeURIComponent(params.username || '');
+  const [completion, setCompletion] = useState(initialMessageString);
+  const [isSuggestLoading, setIsSuggestLoading] = useState(false);
 
-  const { complete, completion, isLoading: isSuggestLoading, error } = useCompletion({
-    api: '/api/suggest-messages',
-    initialCompletion: initialMessageString,
-  });
+  const fetchSuggestions = async () => {
+    setIsSuggestLoading(true);
+    try {
+      const response = await axios.post('/api/suggest-messages');
+      if (typeof response.data === 'string') {
+        setCompletion(response.data);
+      }
+    } catch {
+      toast({ title: 'Error', description: 'Failed to fetch message suggestions', variant: 'destructive' });
+    } finally {
+      setIsSuggestLoading(false);
+    }
+  };
 
   const form = useForm<z.infer<typeof messageSchema>>({ resolver: zodResolver(messageSchema) });
   const messageContent = form.watch('content');
@@ -132,7 +142,7 @@ export default function SendMessage() {
 
         {/* Suggestions */}
         <div className="space-y-4">
-          <Button onClick={() => complete('')} disabled={isSuggestLoading}
+          <Button onClick={fetchSuggestions} disabled={isSuggestLoading}
             className="rounded-xl bg-secondary/50 hover:bg-secondary border border-border/30 text-foreground font-medium" variant="outline">
             <Sparkles className="mr-2 h-4 w-4 text-violet-400" />
             {isSuggestLoading ? 'Thinking...' : 'Suggest Messages'}
@@ -145,16 +155,12 @@ export default function SendMessage() {
               <h3 className="text-sm font-semibold text-foreground/80">Suggested Whispers</h3>
             </div>
             <div className="p-4 flex flex-col gap-2">
-              {error ? (
-                <p className="text-red-400 text-sm">{error.message}</p>
-              ) : (
-                parseStringMessages(completion).map((message, index) => (
-                  <Button key={index} variant="ghost" onClick={() => handleMessageClick(message)}
-                    className="justify-start text-left h-auto py-3 px-4 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-violet-500/10 transition-all whitespace-normal">
-                    {message}
-                  </Button>
-                ))
-              )}
+              {parseStringMessages(completion).map((message, index) => (
+                <Button key={index} variant="ghost" onClick={() => handleMessageClick(message)}
+                  className="justify-start text-left h-auto py-3 px-4 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-violet-500/10 transition-all whitespace-normal">
+                  {message}
+                </Button>
+              ))}
             </div>
           </div>
         </div>
