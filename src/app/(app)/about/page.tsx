@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { Shield, Heart, Eye, Code, Sparkles, Users, Lock, Zap } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -53,8 +54,8 @@ export default function AboutPage() {
             </div>
             <div className="rounded-2xl p-8 text-center"
               style={{ background: 'rgba(21, 18, 31, 0.6)', border: '1px solid rgba(139,92,246,0.1)' }}>
-              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 shadow-lg shadow-violet-500/20 border-2 border-violet-500/30">
-                <img src="/avatar.jpg" alt="Shiva" className="w-full h-full object-cover" />
+              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 shadow-lg shadow-violet-500/20 border-2 border-violet-500/30 relative">
+                <Image src="/avatar.jpg" alt="Shiva" width={80} height={80} className="w-full h-full object-cover" />
               </div>
               <h3 className="text-2xl font-bold mb-2">Shiva</h3>
               <p className="text-violet-400 text-sm font-medium mb-4">Founder & Developer</p>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Clock, User, BookOpen } from 'lucide-react';
@@ -89,11 +90,12 @@ function renderContent(content: string) {
       if (srcMatch) {
         return (
           <figure key={i} className="my-6 relative w-full h-[400px]">
-            <img
+            <Image
               src={srcMatch[1]}
               alt={altMatch?.[1] || ''}
-              className="rounded-xl w-full h-full object-cover"
-              loading="lazy"
+              fill
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="rounded-xl object-cover"
             />
           </figure>
         );

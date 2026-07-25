@@ -49,7 +49,7 @@ export async function POST(request: Request) {
   const safeSenderGender = typeof senderGender === 'string' && allowedGenders.includes(senderGender) ? senderGender : '';
 
   try {
-    const user = await UserModel.findOne({ username: username.trim() }).exec();
+    const user = await UserModel.findOne({ username: username.trim() }).lean().exec();
 
     if (!user) {
       return Response.json(

@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   experimental: {
     serverComponentsExternalPackages: ['cashfree-pg'],
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
   async headers() {
     return [

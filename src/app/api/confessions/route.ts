@@ -88,10 +88,11 @@ export async function GET(request: Request) {
 
     const filter = category && category !== 'all' ? { category } : {};
 
-    const confessions = await ConfessionModel.find(filter)
+    const confessions: any[] = await ConfessionModel.find(filter)
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
-      .limit(limit);
+      .limit(limit)
+      .lean();
 
     const total = await ConfessionModel.countDocuments(filter);
 
@@ -99,8 +100,7 @@ export async function GET(request: Request) {
     const userId = session?.user?._id?.toString();
 
     // Securely map the confessions
-    const mappedConfessions = confessions.map((c) => {
-      const confessionObj = c.toObject();
+    const mappedConfessions = confessions.map((confessionObj) => {
       const isRevealedToCurrentUser = userId && confessionObj.revealedTo?.some(
         (id: any) => id.toString() === userId
       );

@@ -24,6 +24,7 @@ export async function GET(request: Request) {
   try {
     const messages = await MessageModel.find({ userId })
       .sort({ createdAt: -1 })
+      .lean()
       .exec();
 
     return Response.json(
