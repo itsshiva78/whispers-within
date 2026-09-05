@@ -15,11 +15,11 @@ const faqs = [
   },
   {
     q: 'What is the Confession Wall?',
-    a: 'The Confession Wall is our public community space where anyone can post anonymous confessions, secrets, or thoughts. Posts are categorized (Love, Funny, Deep, Regret, Secret, General) and can be liked and shared. You can optionally leave a hidden "hint" about your identity that others can pay to reveal — it is a fun, gamified way to add intrigue.',
+    a: 'The Confession Wall is our public community space where anyone can post anonymous confessions, secrets, or thoughts. Posts are categorized (Love, Funny, Deep, Regret, Secret, General) and can be liked and shared. You can optionally leave a hidden "hint" about your identity that others can reveal for free — it is a fun, gamified way to add intrigue.',
   },
   {
     q: 'How does the "Reveal Hint" feature work?',
-    a: 'When posting a confession, senders can optionally leave a hidden clue (like a nickname or emoji) and their gender. Readers can upgrade to a Whispers Pro subscription (₹499) to unlock these hints across the entire platform. This creates a fun guessing-game element. Importantly, no real identity is ever revealed — only the clue the sender chose to leave.',
+    a: 'When posting a confession, senders can optionally leave a hidden clue (like a nickname or emoji) and their gender. Readers can reveal these hints instantly and 100% free with a single tap. This creates a fun guessing-game element. Importantly, no real identity is ever revealed — only the clue the sender chose to leave.',
   },
   {
     q: 'Is my data safe?',

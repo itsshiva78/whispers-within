@@ -1,13 +1,33 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CheckCircle2, Zap, ArrowRight, Shield, Crown } from 'lucide-react';
+import { CheckCircle2, Zap, ArrowRight, Shield, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export const metadata = {
-  title: 'Pricing - Whispers Within Pro',
-  description: 'Unlock hints, clues, and advanced analytics with Whispers Pro. Simple, transparent pricing with no recurring subscriptions.',
+export const metadata: Metadata = {
+  title: '100% Free Forever | Whispers Within - No Subscriptions or Paywalls',
+  description: 'Whispers Within is 100% free forever. No subscriptions, no microtransactions, and no credit card required. Enjoy unlimited anonymous feedback and hint reveals.',
+  alternates: {
+    canonical: '/pricing',
+  },
+  openGraph: {
+    title: '100% Free Forever | Whispers Within',
+    description: 'No subscriptions, no microtransactions. Completely free anonymous messaging and confessions for everyone.',
+    url: 'https://www.whispers-within.in/pricing',
+  },
 };
 
 export default function PricingPage() {
+  const freeFeatures = [
+    'Unlimited anonymous whispers received & sent',
+    'Custom shareable profile link (whispers-within.in/u/you)',
+    'Full sender hint & clue reveals at zero cost',
+    'Post & react freely on the public Confession Wall',
+    'Built-in Instagram & Snapchat Story Template Generator',
+    'Real-time AI content moderation & abuse protection',
+    'Manage, delete, and organize messages in your private dashboard',
+    'Zero subscriptions, zero credit card requirements, zero recurring fees',
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground pb-24">
       {/* Hero Section */}
@@ -16,109 +36,62 @@ export default function PricingPage() {
           style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)' }} />
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-bold uppercase tracking-wider mb-6">
-            <Crown className="h-4 w-4" /> Simple Pricing
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-bold uppercase tracking-wider mb-6">
+            <Sparkles className="h-4 w-4" /> 100% Free Forever
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-            Uncover the secrets behind the whispers.
+            Honest conversations should <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400">never be behind a paywall.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            The core Whispers Within experience is always free. Upgrade to Pro when you are ready to see hints, device info, and more.
+            Whispers Within is completely free. No recurring charges, no locked features, and no surprise debits. Every creator, student, and user gets full access to everything.
           </p>
         </div>
       </section>
 
-      {/* Pricing Cards */}
-      <section className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 relative z-10">
-        
-        {/* Free Tier */}
-        <div className="p-8 md:p-10 rounded-3xl border border-white/5 transition-all duration-300"
-          style={{ background: 'rgba(21, 18, 31, 0.4)' }}>
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-2">Basic</h3>
-            <p className="text-muted-foreground">Everything you need to start receiving anonymous messages.</p>
-          </div>
+      {/* Single Free Plan Card */}
+      <section className="max-w-3xl mx-auto px-6 relative z-10">
+        <div className="p-8 md:p-12 rounded-3xl border border-violet-500/30 relative transition-all duration-300 shadow-2xl shadow-violet-500/10"
+          style={{ background: 'rgba(21, 18, 31, 0.85)', backdropFilter: 'blur(20px)' }}>
           
-          <div className="mb-8">
-            <span className="text-5xl font-extrabold">₹0</span>
-            <span className="text-muted-foreground font-medium ml-2">/ forever</span>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-8 border-b border-white/10">
+            <div>
+              <span className="inline-block text-xs font-mono font-bold uppercase tracking-wider text-violet-400 mb-1">
+                Community Edition
+              </span>
+              <h2 className="text-3xl font-extrabold text-foreground flex items-center gap-2">
+                All Access Pass <Zap className="h-6 w-6 text-amber-400 fill-amber-400" />
+              </h2>
+              <p className="text-muted-foreground text-sm mt-1">Full features unlocked for every single user.</p>
+            </div>
+            <div className="text-left sm:text-right">
+              <span className="text-5xl font-black text-foreground">₹0</span>
+              <span className="text-muted-foreground font-medium ml-2">/ forever</span>
+            </div>
           </div>
 
-          <Link href="/sign-up" className="block w-full mb-10">
-            <Button variant="outline" className="w-full py-6 text-lg rounded-xl border-white/10 hover:bg-white/5">
-              Get Started Free
-            </Button>
-          </Link>
-
-          <div className="space-y-4">
-            <p className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-4">What&apos;s included:</p>
-            {[
-              'Unlimited anonymous messages',
-              'Custom profile link',
-              'Dashboard message management',
-              'Post to the Confession Wall',
-              'Instagram Story Generator',
-              'AI Content Moderation',
-            ].map((feature, i) => (
+          <div className="space-y-4 mb-10">
+            <p className="font-semibold text-xs uppercase tracking-wider text-violet-300 mb-4">Everything included at zero cost:</p>
+            {freeFeatures.map((feature, i) => (
               <div key={i} className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-violet-400 shrink-0 mt-0.5" />
-                <span className="text-muted-foreground">{feature}</span>
+                <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+                <span className="text-foreground/90 text-sm sm:text-base leading-relaxed">{feature}</span>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Pro Tier */}
-        <div className="p-8 md:p-10 rounded-3xl border border-violet-500/30 relative transition-all duration-300 shadow-2xl shadow-violet-500/10"
-          style={{ background: 'rgba(21, 18, 31, 0.8)' }}>
-          
-          <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-            MOST POPULAR
-          </div>
-
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-violet-400 mb-2 flex items-center gap-2">
-              Whispers Pro <Zap className="h-5 w-5" />
-            </h3>
-            <p className="text-muted-foreground">Unlock the full power of Whispers Within and reveal the hints.</p>
-          </div>
-          
-          <div className="mb-8 flex items-baseline gap-2">
-            <span className="text-5xl font-extrabold text-foreground">₹499</span>
-            <span className="text-muted-foreground font-medium">/ month</span>
-          </div>
-
-          <Link href="/sign-up" className="block w-full mb-10">
-            <Button className="w-full py-6 text-lg rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold shadow-xl shadow-violet-500/20 transition-all hover:scale-[1.02]">
-              Unlock Whispers Pro
+          <Link href="/sign-up" className="block w-full">
+            <Button className="w-full py-7 text-lg rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold shadow-xl shadow-violet-500/25 transition-all hover:scale-[1.01]">
+              Get Your Free Link Now <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-
-          <div className="space-y-4">
-            <p className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">Everything in Basic, plus:</p>
-            {[
-              'Reveal hidden sender hints & clues',
-              'See sender gender (if shared)',
-              'View sender device type (iOS/Android/Web)',
-              'Priority 24/7 Support',
-              'Completely Ad-free experience',
-              'Early access to new features',
-            ].map((feature, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-green-400 shrink-0 mt-0.5" />
-                <span className="text-foreground">{feature}</span>
-              </div>
-            ))}
-          </div>
         </div>
-
       </section>
 
-      {/* Trust Banner */}
-      <section className="max-w-4xl mx-auto mt-20 px-6 text-center">
-        <div className="inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl bg-white/5 border border-white/5 text-muted-foreground">
-          <Shield className="h-5 w-5 text-violet-400" />
-          <span className="text-sm font-medium">Secure payments processed by Cashfree Payments. Cancel anytime.</span>
+      {/* Trust & Transparency Banner */}
+      <section className="max-w-4xl mx-auto mt-16 px-6 text-center">
+        <div className="inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl bg-white/5 border border-white/5 text-muted-foreground text-sm">
+          <Shield className="h-5 w-5 text-emerald-400 shrink-0" />
+          <span>Zero payment details required. No credit cards, no UPI autopay mandates, completely free forever.</span>
         </div>
       </section>
     </div>

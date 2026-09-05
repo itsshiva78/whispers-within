@@ -78,7 +78,6 @@ export default function PrivacyPage() {
               We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following limited circumstances:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li><strong className="text-foreground">Payment Processors:</strong> When you make a payment to reveal confession hints, your payment information is processed directly by our payment partner (Cashfree Payments). We do not store your credit card or bank account details on our servers.</li>
               <li><strong className="text-foreground">Service Providers:</strong> We use trusted third-party services for hosting (Vercel), database management (MongoDB Atlas), authentication (NextAuth.js), and email services. These providers only access the minimum data necessary to perform their services and are contractually obligated to protect your information.</li>
               <li><strong className="text-foreground">Legal Requirements:</strong> We may disclose your information if required to do so by law or in the good faith belief that such action is necessary to comply with a legal obligation, protect and defend our rights or property, or protect the personal safety of users of the Platform or the public.</li>
             </ul>
@@ -145,7 +144,6 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 space-y-2">
               <li><strong className="text-foreground">Vercel</strong> — Hosting and deployment infrastructure</li>
               <li><strong className="text-foreground">MongoDB Atlas</strong> — Encrypted database hosting and management</li>
-              <li><strong className="text-foreground">Cashfree Payments</strong> — Secure payment processing for the hint reveal feature</li>
               <li><strong className="text-foreground">Google</strong> — Ad serving through the Google AdSense network (non-personalized contextual ads)</li>
             </ul>
           </section>

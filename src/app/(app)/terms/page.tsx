@@ -113,15 +113,15 @@ export default function TermsPage() {
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-foreground">7. Payments & Refunds</h2>
+            <h2 className="text-2xl font-bold text-foreground">7. 100% Free Community Service</h2>
             <p>
-              Certain features of the Platform, such as the Confession Hint Reveal, require payment. All payments are processed securely through our payment partner, Cashfree Payments. By making a payment, you agree to the following:
+              Whispers Within is provided as a 100% free community platform. All core features—including anonymous messaging, message management, confession posting, and hint reveals—are provided without charge.
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>All payments are final and non-refundable, except where required by applicable law.</li>
-              <li>Prices are listed in Indian Rupees (INR) and include applicable taxes.</li>
-              <li>We are not responsible for any fees charged by your bank or payment provider.</li>
-              <li>In the event of a payment processing error, we will make reasonable efforts to resolve the issue promptly.</li>
+              <li>No payment information, credit/debit card numbers, or UPI autopay mandates are required to access features on Whispers Within.</li>
+              <li>All features, hints, and community tools are provided free of charge to all registered users and visitors.</li>
+              <li>We do not charge recurring subscriptions, membership fees, or automatic renewals.</li>
+              <li>In the event we introduce any optional third-party integrations or services in the future, these Terms will be updated accordingly.</li>
             </ul>
           </section>
 

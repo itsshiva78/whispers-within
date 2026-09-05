@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@cashfreepayments/cashfree-js": "^1.0.6",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^3.3.3",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -23,7 +22,6 @@
     "@react-email/render": "^0.0.9-canary.2",
     "axios": "^1.13.6",
     "bcryptjs": "^2.4.3",
-    "cashfree-pg": "^5.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",

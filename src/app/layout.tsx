@@ -20,12 +20,9 @@ export const metadata: Metadata = {
   },
   description: "Whispers Within is India's most trusted anonymous messaging platform. Share honest feedback, post confessions anonymously, and discover what people really think — all with complete privacy and AI-powered safety. Join thousands of users having real conversations.",
   metadataBase: new URL('https://www.whispers-within.in'),
-  alternates: {
-    canonical: '/',
-  },
-  keywords: ['anonymous messaging', 'anonymous feedback', 'confession platform', 'anonymous questions', 'NGL alternative', 'honest feedback India', 'anonymous confession wall'],
-  authors: [{ name: 'Whispers Within Team', url: 'https://www.whispers-within.in/about' }],
-  creator: 'Whispers Within',
+  keywords: ['anonymous messaging', 'anonymous feedback', 'confession platform', 'anonymous questions', 'NGL alternative', 'honest feedback India', 'anonymous confession wall', 'free anonymous messages'],
+  authors: [{ name: 'Shiva', url: 'https://www.whispers-within.in/about' }],
+  creator: 'Shiva',
   publisher: 'Whispers Within',
   robots: {
     index: true,
@@ -69,28 +66,57 @@ export const metadata: Metadata = {
   },
 };
 
-// Organization JSON-LD — critical E-E-A-T trust signal for Google AdSense & Search
-const organizationSchema = {
+// Unified Multi-Tier Schema Graph — E-E-A-T & Google Rich Results (FreeViralKit standard)
+const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Whispers Within',
-  url: 'https://www.whispers-within.in',
-  logo: 'https://www.whispers-within.in/logo.png',
-  description: "India's most trusted anonymous messaging and confession platform.",
-  foundingDate: '2026',
-  founder: {
-    '@type': 'Person',
-    name: 'Shiva',
-  },
-  contactPoint: {
-    '@type': 'ContactPoint',
-    email: 'support@whispers-within.in',
-    contactType: 'customer support',
-    availableLanguage: 'English',
-  },
-  sameAs: [
-    'https://www.whispers-within.in/about',
-    'https://www.whispers-within.in/blog',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      name: 'Whispers Within',
+      url: 'https://www.whispers-within.in',
+      applicationCategory: 'SocialNetworkingApplication',
+      operatingSystem: 'Web',
+      description: "India's most trusted anonymous messaging and confession platform.",
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'INR',
+      },
+      author: {
+        '@type': 'Person',
+        name: 'Shiva',
+        url: 'https://www.whispers-within.in/about',
+      },
+    },
+    {
+      '@type': 'Organization',
+      name: 'Whispers Within',
+      url: 'https://www.whispers-within.in',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.whispers-within.in/logo.png',
+        width: 512,
+        height: 512,
+      },
+      description: "India's most trusted anonymous messaging and confession platform.",
+      foundingDate: '2026',
+      founder: {
+        '@type': 'Person',
+        name: 'Shiva',
+        url: 'https://www.whispers-within.in/about',
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        email: 'support@whispers-within.in',
+        contactType: 'customer support',
+        availableLanguage: 'English',
+      },
+      sameAs: [
+        'https://github.com/itsshiva78/whispers-within',
+        'https://www.whispers-within.in/about',
+        'https://www.whispers-within.in/blog',
+      ],
+    },
   ],
 };
 
@@ -103,9 +129,19 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" className="dark">
       <head>
         <meta name="google-adsense-account" content="ca-pub-4666306883399247" />
+        {/* Preconnect to external domains — improves Core Web Vitals */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        {/* Google AdSense Official Site Verification & Auto-Ads Tag */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4666306883399247"
+          crossOrigin="anonymous"
+        />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans`}>

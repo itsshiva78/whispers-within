@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -6,6 +7,12 @@ import {
   Heart, Globe, BookOpen, Star, UserCheck, BellRing
 } from 'lucide-react';
 import HomeFaqSection from '@/components/HomeFaqSection';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://www.whispers-within.in',
+  },
+};
 
 export default function Home() {
 
@@ -21,7 +28,7 @@ export default function Home() {
                 '@type': 'Organization',
                 name: 'Whispers Within',
                 url: 'https://www.whispers-within.in',
-                logo: 'https://www.whispers-within.in/icon.png',
+                logo: 'https://www.whispers-within.in/logo.png',
                 description: 'The ultimate anonymous feedback platform for honest conversations.',
               },
               {
@@ -134,10 +141,10 @@ export default function Home() {
                             </div>
                             <span className="text-sm font-medium text-white/50">Sender Hidden</span>
                          </div>
-                         <Button size="sm" variant="outline" className="border-violet-500/30 text-violet-300 bg-violet-500/10 hover:bg-violet-500/20">
-                            <Lock className="w-4 h-4 mr-2"/>
-                            Unlock Whispers Pro (₹499)
-                         </Button>
+                         <div className="inline-flex items-center px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-400 bg-emerald-500/10 text-xs font-semibold">
+                             <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+                             Free Clues &amp; Hints
+                          </div>
                       </div>
                    </div>
                 </div>

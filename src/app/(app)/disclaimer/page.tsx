@@ -72,7 +72,7 @@ export default function DisclaimerPage() {
               The inclusion of any external link on our Platform does not imply our endorsement, recommendation, or approval of that website or its content. We encourage you to review the terms of service and privacy policies of any third-party websites you visit.
             </p>
             <p>
-              Third-party integrations we utilize include Cashfree Payments (for payment processing), Vercel (for hosting), MongoDB Atlas (for database services), and Google (for advertising via Google AdSense). Each of these services operates under its own terms and privacy policies.
+              Third-party integrations we utilize include Vercel (for hosting and edge infrastructure), MongoDB Atlas (for database services), and Google (for advertising via Google AdSense). Each of these services operates under its own terms and privacy policies.
             </p>
           </section>
 

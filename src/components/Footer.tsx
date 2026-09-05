@@ -27,8 +27,9 @@ function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li><Link href="/sign-up" className="hover:text-white transition-colors">Get Started</Link></li>
                             <li><Link href="/confessions" className="hover:text-white transition-colors">Confession Wall</Link></li>
+                            <li><Link href="/pricing" className="hover:text-emerald-400 text-emerald-400/90 font-medium transition-colors">100% Free Edition</Link></li>
                             <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-                            <li><Link href="/contact" className="hover:text-white transition-colors">Contact & Support</Link></li>
+                            <li><Link href="/contact" className="hover:text-white transition-colors">Contact &amp; Support</Link></li>
                         </ul>
                     </div>
 
@@ -36,7 +37,7 @@ function Footer() {
                     <div>
                         <h3 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4">Resources</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><Link href="/blog" className="hover:text-white transition-colors">Blog & Guides</Link></li>
+                            <li><Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link></li>
                             <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
                             <li><Link href="/blog/how-to-use-instagram-stories" className="hover:text-white transition-colors">Instagram Guide</Link></li>
                             <li><Link href="/blog/staying-safe-online" className="hover:text-white transition-colors">Safety Guide</Link></li>
@@ -52,8 +53,10 @@ function Footer() {
                             <li><Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link></li>
                         </ul>
 
-                        <h3 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 mt-8">Social</h3>
+                        <h3 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 mt-8">Connect</h3>
                         <ul className="space-y-3 text-sm">
+                            <li><a href="https://github.com/itsshiva78/whispers-within" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub ↗</a></li>
+                            <li><Link href="/contact" className="hover:text-white transition-colors">Support Desk</Link></li>
                         </ul>
                     </div>
                 </div>

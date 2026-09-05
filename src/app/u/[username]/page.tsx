@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Loader2, Send, Sparkles, MessageCircle } from 'lucide-react';
+import { Loader2, Send, Sparkles, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CardHeader, CardContent, Card } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -45,6 +45,7 @@ export default function SendMessage() {
   const messageContent = form.watch('content');
   const handleMessageClick = (message: string) => form.setValue('content', message);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
@@ -52,6 +53,7 @@ export default function SendMessage() {
       const response = await axios.post<ApiResponse>('/api/send-message', { ...data, username });
       toast({ title: response.data.message, variant: 'default' });
       form.reset({ ...form.getValues(), content: '' });
+      setIsSent(true);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({ title: 'Error', description: axiosError.response?.data.message ?? 'Failed to send message', variant: 'destructive' });
@@ -76,69 +78,122 @@ export default function SendMessage() {
           <p className="text-muted-foreground">Your identity will remain completely anonymous</p>
         </div>
 
-        {/* Message Form */}
-        <div className="rounded-2xl p-6 mb-8"
-          style={{
-            background: 'rgba(21, 18, 31, 0.6)', backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(139,92,246,0.1)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-          }}>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              <FormField control={form.control} name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Your Anonymous Message</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Write something honest, kind, or mysterious..."
-                        className="resize-none min-h-[120px] rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary"
-                        {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+        {/* Success or Message Form */}
+        {isSent ? (
+          <div
+            className="rounded-2xl p-8 mb-8 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300"
+            style={{
+              background: 'rgba(21, 18, 31, 0.75)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(139,92,246,0.2)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
+            }}
+          >
+            <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-400 mx-auto flex items-center justify-center border border-emerald-500/30">
+              <CheckCircle2 className="w-8 h-8" />
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <FormField control={form.control} name="senderName"
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-foreground">
+                Whisper Sent Anonymously! 🤫
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                Your message was delivered secretly to <strong className="text-violet-300">@{username}</strong>. They will never know who sent it!
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-gradient-to-b from-violet-500/15 to-indigo-500/10 border border-violet-500/25 space-y-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 text-xs font-bold uppercase tracking-wider">
+                🔥 It&apos;s Your Turn!
+              </span>
+              <h3 className="text-lg font-bold text-foreground">
+                Want to know what your friends secretly think about you?
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Create your personal whisper link, add it to your Instagram or WhatsApp story, and get anonymous compliments & secrets!
+              </p>
+              <Link href="/sign-up" className="block pt-2">
+                <Button className="w-full h-12 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-violet-500/25 transition-transform hover:scale-[1.02]">
+                  Claim Your Free Link (Takes 20s) 🚀
+                </Button>
+              </Link>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                onClick={() => setIsSent(false)}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+              >
+                Send another whisper to @{username}
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Message Form */
+          <div className="rounded-2xl p-6 mb-8"
+            style={{
+              background: 'rgba(21, 18, 31, 0.6)', backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(139,92,246,0.1)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+            }}>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                <FormField control={form.control} name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Name (Optional)</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Your Anonymous Message</FormLabel>
                       <FormControl>
-                        <Input placeholder="Leave a hint..."
-                          className="h-12 rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                        <Textarea placeholder="Write something honest, kind, or mysterious..."
+                          className="resize-none min-h-[120px] rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary"
                           {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
 
-                <FormField control={form.control} name="senderGender"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Gender (Optional)</FormLabel>
-                      <FormControl>
-                        <select
-                          className="flex h-12 w-full items-center justify-between rounded-xl border-0 bg-background/80 px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
-                          {...field}
-                        >
-                          <option className="bg-background text-foreground" value="">Secret 🤫</option>
-                          <option className="bg-background text-foreground" value="Male">Male 👦</option>
-                          <option className="bg-background text-foreground" value="Female">Female 👧</option>
-                          <option className="bg-background text-foreground" value="Other">Other 🏳️‍🌈</option>
-                        </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-              </div>
-              <div className="flex justify-center">
-                <Button type="submit" disabled={isLoading || !messageContent}
-                  className="h-12 px-8 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-violet-500/20 transition-all hover:scale-[1.02]">
-                  {isLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>) : (<><Send className="mr-2 h-4 w-4" /> Send Whisper</>)}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField control={form.control} name="senderName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Name (Optional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Leave a hint..."
+                            className="h-12 rounded-xl border-0 bg-background/80 text-foreground text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+
+                  <FormField control={form.control} name="senderGender"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase tracking-wider text-muted-foreground">Gender (Optional)</FormLabel>
+                        <FormControl>
+                          <select
+                            className="flex h-12 w-full items-center justify-between rounded-xl border-0 bg-background/80 px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+                            {...field}
+                          >
+                            <option className="bg-background text-foreground" value="">Secret 🤫</option>
+                            <option className="bg-background text-foreground" value="Male">Male 👦</option>
+                            <option className="bg-background text-foreground" value="Female">Female 👧</option>
+                            <option className="bg-background text-foreground" value="Other">Other 🏳️‍🌈</option>
+                          </select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                </div>
+                <div className="flex justify-center">
+                  <Button type="submit" disabled={isLoading || !messageContent}
+                    className="h-12 px-8 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-violet-500/20 transition-all hover:scale-[1.02]">
+                    {isLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>) : (<><Send className="mr-2 h-4 w-4" /> Send Whisper</>)}
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        )}
 
         {/* Suggestions */}
         <div className="space-y-4">

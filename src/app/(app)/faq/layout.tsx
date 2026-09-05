@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions',
-  description: 'Find answers to common questions about Whispers Within — how anonymous messaging works, privacy protections, account management, the Confession Wall, and our Pro subscription features.',
+  description: 'Find answers to common questions about Whispers Within — how anonymous messaging works, privacy protections, account management, the Confession Wall, and 100% free community features.',
   alternates: {
     canonical: 'https://www.whispers-within.in/faq',
   },
@@ -43,7 +43,7 @@ const faqSchema = {
       name: 'Is Whispers Within free to use?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, the core features of Whispers Within are completely free. This includes creating an account, receiving anonymous messages, managing your dashboard, and posting on the Confession Wall. The only paid feature is the optional "Whispers Pro" subscription, which unlocks hints and clues about who sent you a message.',
+        text: 'Yes, Whispers Within is 100% free forever. This includes creating an account, receiving anonymous messages, managing your dashboard, posting on the Confession Wall, and unlocking sender clues and device hints with zero paywalls.',
       },
     },
     {
@@ -67,15 +67,15 @@ const faqSchema = {
       name: 'What is the Confession Wall?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The Whispers Within Confession Wall is a public, community-driven space where users can post anonymous confessions, secrets, and thoughts for the whole community to read. Confessions are moderated by AI and community guidelines. Users can react to confessions (like/love), and Pro subscribers can submit confessions to the featured section.',
+        text: 'The Whispers Within Confession Wall is a public, community-driven space where users can post anonymous confessions, secrets, and thoughts for the whole community to read. Confessions are moderated by AI and community guidelines. Users can react to confessions (like/love), and unlock hints and clues completely free.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What is Whispers Pro?',
+      name: 'Are all features really free forever?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Whispers Pro is the premium subscription for Whispers Within, priced at ₹499/month. It unlocks advanced features including: Hint reveals (partial clues about who sent you a message), Ad-free browsing, Priority support, and access to exclusive Pro features on the Confession Wall.',
+        text: 'Yes! Whispers Within is a 100% free community platform. There are no recurring subscription fees, no paywalls, and no hidden UPI mandates. All features—including message hints, clues, and story templates—are available to everyone at no cost.',
       },
     },
   ],

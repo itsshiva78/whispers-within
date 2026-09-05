@@ -8,14 +8,14 @@
     <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
     <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
-    <img src="https://img.shields.io/badge/Cashfree-5E3AEE?style=for-the-badge&logo=cashfree&logoColor=white" alt="Cashfree" />
+    <img src="https://img.shields.io/badge/100%25_Free-10B981?style=for-the-badge&logo=opensource&logoColor=white" alt="100% Free" />
     <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
   </p>
 </div>
 
 <br/>
 
-**Whispers Within** is a modern, full-stack anonymous messaging application that lets users receive honest, unfiltered feedback from anyone, anywhere. Featuring a beautifully crafted dark-mode glassmorphic UI, robust serverless architecture, and a highly viral "Identity Reveal" payment gateway powered by Cashfree!
+**Whispers Within** is a modern, full-stack anonymous messaging application that lets users receive honest, unfiltered feedback from anyone, anywhere. Featuring a beautifully crafted dark-mode glassmorphic UI, robust serverless architecture, and 100% free community access with zero paywalls!
 
 ---
 
@@ -36,7 +36,7 @@
 ## ✨ Viral Features
 
 - 🎭 **Anonymous Messaging**: Generate a unique, shareable profile link (`/u/username`) to receive secret messages instantly without the sender needing an account.
-- 💳 **Premium Identity Reveal**: Monetize curiosity! Users can securely pay (via **Cashfree Payment Gateway**) to unlock the hidden identity and device metadata of the sender.
+- 💡 **Free Sender Clues & Hints**: Unlock curiosity with zero paywalls! Users can instantly see device type, sent time period, and sender hints completely free.
 - 🤖 **Gemini AI Integration**: Sender has writer's block? Built-in AI auto-generates creative, deep, or funny anonymous messages with one click.
 - 🔐 **Bulletproof Authentication**: Offers standard Email/Password sign-up as well as frictionless **Google OAuth** login via **NextAuth v4**.
 - ✉️ **OTP Email Verification**: Secure domain email verification using magic 6-digit codes delivered flawlessly via **Resend**.
@@ -58,8 +58,6 @@
 - **Backend:** Next.js Serverless API Routes, Node.js edge runtime.
 - **Database:** MongoDB & Mongoose ORM.
 - **Authentication:** NextAuth (Credentials & Google Providers), bcrypt.js.
-- **Payments:** Cashfree PG Node.js SDK (`cashfree-pg`) & Client SDK (`@cashfreepayments/cashfree-js`).
-- **Emails:** Resend API & React Email Templates.
 - **Validation**: Zod & React Hook Form.
 
 ---
@@ -93,11 +91,6 @@ RESEND_API_KEY=your_resend_api_key
 
 # Generative AI (Crucial for auto-suggestions)
 GEMINI_API_KEY=your_gemini_api_key
-
-# Payments (Cashfree Identity Reveal)
-CASHFREE_APP_ID=your_cashfree_app_id
-CASHFREE_SECRET_KEY=your_cashfree_secret_key
-CASHFREE_ENVIRONMENT=SANDBOX # Toggle to PRODUCTION when live
 ```
 
 ### 3. Run the Development Server

@@ -4,35 +4,41 @@ import { BLOG_INDEX_ARTICLES } from '@/data/blogIndex';
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.whispers-within.in';
   
-  // Static routes
+  // Static routes with stable release dates to preserve crawl budget
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'weekly',
-      priority: 1,
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/pricing`,
+      lastModified: new Date('2026-05-30'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/faq`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
@@ -40,19 +46,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // robots: { index: false }. Including it here would send conflicting signals.
     {
       url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'yearly',
       priority: 0.5,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'yearly',
       priority: 0.5,
     },
     {
       url: `${baseUrl}/disclaimer`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-05-30'),
       changeFrequency: 'yearly',
       priority: 0.5,
     },

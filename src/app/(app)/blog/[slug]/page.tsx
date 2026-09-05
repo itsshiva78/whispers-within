@@ -12,20 +12,36 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const article = getPostBySlug(params.slug);
   if (!article) return { title: 'Article Not Found' };
+  const ogImageUrl = `https://www.whispers-within.in/api/og?title=${encodeURIComponent(article.title)}`;
+  const canonicalUrl = `https://www.whispers-within.in/blog/${params.slug}`;
+
   return {
     title: article.title,
     description: article.description,
-    alternates: { canonical: `https://www.whispers-within.in/blog/${params.slug}` },
-    authors: [{ name: 'Whispers Within Team', url: 'https://www.whispers-within.in/about' }],
+    alternates: { canonical: canonicalUrl },
+    authors: [{ name: 'Shiva', url: 'https://www.whispers-within.in/about' }],
     openGraph: {
       title: article.title,
       description: article.description,
       type: 'article',
       publishedTime: new Date(article.date).toISOString(),
       authors: ['https://www.whispers-within.in/about'],
-      url: `https://www.whispers-within.in/blog/${params.slug}`,
+      url: canonicalUrl,
       siteName: 'Whispers Within',
-      images: [{ url: `https://www.whispers-within.in/api/og?title=${encodeURIComponent(article.title)}`, width: 1200, height: 630, alt: article.title }],
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.description,
+      images: [ogImageUrl],
     },
   };
 }
@@ -129,18 +145,85 @@ function formatInline(text: string): string {
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
 }
 
+function extractFaqs(content: string) {
+  const faqs: { question: string; answer: string }[] = [];
+  const lines = content.split('\n');
+  let currentQuestion = '';
+  let currentAnswer: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line.startsWith('### ')) {
+      if (currentQuestion && currentAnswer.length > 0) {
+        faqs.push({
+          question: currentQuestion,
+          answer: currentAnswer.join(' ').replace(/[*_#\[\]\(\)]/g, '').trim(),
+        });
+      }
+      currentQuestion = line.replace('### ', '').trim();
+      currentAnswer = [];
+    } else if (currentQuestion) {
+      if (line.startsWith('## ') || line === '---') {
+        if (currentAnswer.length > 0) {
+          faqs.push({
+            question: currentQuestion,
+            answer: currentAnswer.join(' ').replace(/[*_#\[\]\(\)]/g, '').trim(),
+          });
+        }
+        currentQuestion = '';
+        currentAnswer = [];
+      } else if (line.length > 0) {
+        currentAnswer.push(line);
+      }
+    }
+  }
+  if (currentQuestion && currentAnswer.length > 0) {
+    faqs.push({
+      question: currentQuestion,
+      answer: currentAnswer.join(' ').replace(/[*_#\[\]\(\)]/g, '').trim(),
+    });
+  }
+  return faqs;
+}
+
 export default function BlogArticlePage({ params }: { params: { slug: string } }) {
   const article = getPostBySlug(params.slug);
   if (!article) notFound();
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
+  const faqs = extractFaqs(article.content);
+  const canonicalUrl = `https://www.whispers-within.in/blog/${params.slug}`;
+
+  const breadcrumbsSchema = {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.whispers-within.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://www.whispers-within.in/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: article.title,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
+  const articleJsonLd = {
     '@type': 'Article',
     headline: article.title,
     description: article.description,
     author: {
-      '@type': 'Organization',
-      name: 'Whispers Within Team',
+      '@type': 'Person',
+      name: 'Shiva',
       url: 'https://www.whispers-within.in/about',
     },
     publisher: {
@@ -151,14 +234,35 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
     datePublished: new Date(article.date).toISOString(),
     dateModified: new Date(article.date).toISOString(),
     image: `https://www.whispers-within.in/api/og?title=${encodeURIComponent(article.title)}`,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.whispers-within.in/blog/${params.slug}` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+  };
+
+  const graphElements: any[] = [articleJsonLd, breadcrumbsSchema];
+
+  if (faqs.length > 0) {
+    graphElements.push({
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: f.answer,
+        },
+      })),
+    });
+  }
+
+  const fullSchema = {
+    '@context': 'https://schema.org',
+    '@graph': graphElements,
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(fullSchema) }}
       />
       <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">
         {/* Breadcrumbs */}
@@ -192,15 +296,27 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
           {renderContent(article.content)}
         </div>
 
-        {/* Author Box */}
-        <div className="mt-16 p-6 rounded-2xl flex items-center gap-5"
-          style={{ background: 'rgba(21, 18, 31, 0.5)', border: '1px solid rgba(139,92,246,0.08)' }}>
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-lg shadow-violet-500/20">
-            S
+        {/* Author Box with E-E-A-T credentials */}
+        <div className="mt-16 p-6 rounded-2xl flex items-center gap-5 border border-violet-500/15"
+          style={{ background: 'rgba(21, 18, 31, 0.6)' }}>
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold font-mono shrink-0 shadow-lg shadow-violet-500/20">
+            SS
           </div>
-          <div>
-            <p className="font-bold text-foreground mb-1">Written by the Whispers Within Team</p>
-            <p className="text-sm text-muted-foreground">Insights, guides, and tips about anonymous messaging, privacy, and building honest digital communities.</p>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <p className="font-bold text-foreground">Shiva</p>
+              <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Founder &amp; Engineer
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Software engineer and creator of Whispers Within. Passionate about building secure, privacy-first communication platforms with zero ads and zero data harvesting.
+            </p>
+            <div className="pt-1">
+              <Link href="/about" className="text-xs text-violet-400 hover:text-violet-300 font-medium transition-colors">
+                Read our story &amp; mission →
+              </Link>
+            </div>
           </div>
         </div>
 

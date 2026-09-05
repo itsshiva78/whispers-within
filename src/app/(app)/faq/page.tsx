@@ -19,7 +19,7 @@ const faqCategories = [
       },
       {
         q: 'Is Whispers Within free to use?',
-        a: 'Yes, the core features of Whispers Within are completely free. This includes creating an account, receiving anonymous messages, managing your dashboard, and posting on the Confession Wall. The only paid feature is the optional "Whispers Pro" subscription, where you can pay to unlock hints and clues on the Confession Wall and your personal dashboard.',
+        a: 'Yes, Whispers Within is 100% free forever. This includes creating an account, receiving anonymous messages, managing your dashboard, posting on the Confession Wall, and unlocking hints and clues. There are no paywalls, no recurring subscriptions, and no hidden fees.',
       },
       {
         q: 'What devices does Whispers Within support?',
@@ -45,7 +45,7 @@ const faqCategories = [
       },
       {
         q: 'Do you sell my data to third parties?',
-        a: 'Absolutely not. We will never sell, trade, or rent your personal information to any third party. The data we collect is used solely for providing and improving the Whispers Within service. Our revenue model is based on advertising and optional premium features — not on selling user data. We believe in privacy as a fundamental right, not a commodity.',
+        a: 'Absolutely not. We will never sell, trade, or rent your personal information to any third party. The data we collect is used solely for providing and improving the Whispers Within service. Our platform is completely free and supported ethically through community use and privacy-friendly advertising — not on selling user data. We believe in privacy as a fundamental right, not a commodity.',
       },
     ],
   },
@@ -67,7 +67,7 @@ const faqCategories = [
       },
       {
         q: 'What is the Confession Wall and how does it work?',
-        a: 'The Confession Wall is a public community space where anyone can post anonymous confessions, secrets, thoughts, or stories. Each confession is categorized (Love, Funny, Deep, Regret, Secret, or General) so you can browse by mood. You can like confessions, share them as image cards, and interact with the community. Confession authors can optionally leave a hidden "hint" about their identity — these hints can be unlocked by other users through a paid reveal feature, adding a fun guessing-game element.',
+        a: 'The Confession Wall is a public community space where anyone can post anonymous confessions, secrets, thoughts, or stories. Each confession is categorized (Love, Funny, Deep, Regret, Secret, or General) so you can browse by mood. You can like confessions, share them as image cards, and interact with the community. Confession authors can optionally leave a hidden "hint" about their identity — these hints can be unlocked instantly and 100% free by anyone reading, adding a fun guessing-game element.',
       },
     ],
   },
@@ -77,15 +77,15 @@ const faqCategories = [
     faqs: [
       {
         q: 'How does the "Reveal Hint" feature work?',
-        a: 'When someone posts a confession, they can optionally leave a hidden clue about their identity — this could be a nickname, an emoji, a riddle, or any other hint they choose. They can also optionally share their gender. These hints are hidden by default. Other users can upgrade to Whispers Pro (₹499) to unlock and see these hints globally for 30 days. Importantly, no real identity is ever revealed — only the clue that the sender voluntarily chose to leave. If a sender did not leave a hint, the revealed information will simply show "Anonymous".',
+        a: 'When someone posts a confession, they can optionally leave a hidden clue about their identity — this could be a nickname, an emoji, a riddle, or any other hint they choose. They can also optionally share their gender. These hints are hidden by default. Anyone reading can simply tap "Reveal Clues & Sender (Free ✨)" to unlock and see these hints instantly without paying anything. Importantly, no real identity is ever revealed — only the clue that the sender voluntarily chose to leave. If a sender did not leave a hint, the revealed information will simply show "Anonymous".',
       },
       {
-        q: 'What information is revealed when I pay for a hint?',
+        q: 'What information is revealed when I unlock a hint?',
         a: 'When you unlock a hint, you will see: (1) The clue/hint that the confession sender chose to provide, (2) The gender they selected (if they chose to share it), and (3) Basic metadata like device type and time period. You will NOT see any real name, email, phone number, or any other personally identifiable information. The reveal feature is designed to be a fun social game, not a privacy violation.',
       },
       {
-        q: 'Are confession payments refundable?',
-        a: 'Payments for the Reveal Hint feature are generally non-refundable, as the digital content (the hint) is delivered instantly upon payment. However, if you experience a technical issue where payment was charged but the hint was not revealed, please contact our support team and we will investigate and resolve the issue. Payments are processed securely through Cashfree Payments, a trusted, RBI-licensed payment gateway.',
+        q: 'Is Whispers Within really 100% free forever?',
+        a: 'Yes! Whispers Within is completely free. We do not charge any subscription fees, we do not require credit cards or UPI mandates, and all features—including anonymous messaging, confession reveals, hints, and story generators—are 100% accessible to everyone without paywalls or hidden charges.',
       },
     ],
   },

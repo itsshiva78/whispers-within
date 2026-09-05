@@ -3,9 +3,8 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import { X, Share2, Eye, Smartphone, Clock, Monitor, Lock, Loader2, Sparkles } from 'lucide-react';
+import { X, Share2, Eye, Smartphone, Clock, Monitor, Sparkles } from 'lucide-react';
 import { Message } from '@/model/Message';
-import { load } from '@cashfreepayments/cashfree-js';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -24,16 +23,14 @@ type MessageCardProps = {
 };
 
 export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
+  const { data: session } = useSession();
+  const user = session?.user as User | undefined;
+  const msgAny = message as any;
   const { toast } = useToast();
   const [showShareCard, setShowShareCard] = useState(false);
   const [showHints, setShowHints] = useState(false);
-  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-  const msgAny = message as any;
-  const { data: session } = useSession();
-  const user = session?.user as User;
-
-  const [revealedData, setRevealedData] = useState<{name: string, gender: string} | null>(
-    (msgAny.isNameRevealed || user?.isPro) ? { name: msgAny.senderName || 'Anonymous', gender: msgAny.senderGender || 'Secret 🤫' } : null
+  const [isRevealed, setIsRevealed] = useState(
+    Boolean(msgAny?.isNameRevealed || user?.isPro)
   );
 
   const handleDeleteConfirm = async () => {
@@ -47,52 +44,9 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
     }
   };
 
-  const handleRevealIdentity = async () => {
-    setIsPaymentLoading(true);
-    try {
-      // 1. Create order
-      const { data } = await axios.post('/api/cashfree/create-order', { messageId: message._id });
-      if (!data.success) {
-        toast({ title: 'Failed to create order', variant: 'destructive' });
-        setIsPaymentLoading(false);
-        return;
-      }
-
-      // 2. Open Cashfree Popup
-      const cashfree = await load({ mode: 'production' });
-      const checkoutOptions = {
-        paymentSessionId: data.payment_session_id,
-        redirectTarget: '_modal',
-      };
-
-      cashfree.checkout(checkoutOptions).then((result: any) => {
-        if (result.error) {
-          toast({ title: 'Payment Failed', description: result.error.message, variant: 'destructive' });
-          setIsPaymentLoading(false);
-        }
-        if (result.redirect) {
-          // It redirected, handle verification on reload
-        }
-        if (result.paymentDetails) {
-          // Payment completed, verify on server
-          toast({ title: 'Payment Successful', description: 'Verifying with server...', variant: 'default' });
-          axios.post('/api/cashfree/verify', { orderId: data.order_id }).then(res => {
-            if (res.data.success) {
-              setRevealedData({ name: res.data.senderName, gender: res.data.senderGender });
-              toast({ title: 'Unlocked!', description: res.data.message });
-            } else {
-              toast({ title: 'Verification Failed', variant: 'destructive', description: res.data.message });
-            }
-          }).finally(() => {
-            setIsPaymentLoading(false);
-          });
-        }
-      });
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      toast({ title: 'Error', description: axiosError.response?.data.message ?? 'Payment process failed', variant: 'destructive' });
-      setIsPaymentLoading(false);
-    }
+  const handleRevealIdentity = () => {
+    setIsRevealed(true);
+    toast({ title: 'Unlocked!', description: 'Sender hints and details revealed for free.' });
   };
 
   const hints = [
@@ -161,7 +115,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 <p className="text-xs font-semibold text-amber-400 flex items-center gap-1.5">
                   <Eye className="h-3.5 w-3.5" /> Get a Hint
                 </p>
-                {(revealedData || user?.isPro) && (
+                {(isRevealed || user?.isPro) && (
                   <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded animate-pulse">
                     Unlocked
                   </span>
@@ -179,7 +133,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
               </div>
 
               <div className="mt-3 pt-3 border-t border-amber-500/10">
-                {(revealedData || user?.isPro) ? (
+                {(isRevealed || user?.isPro) ? (
                   <div className="flex items-center gap-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
                     <div className="h-10 w-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0">
                       <Sparkles className="h-5 w-5 text-white" />
@@ -187,19 +141,15 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                     <div>
                       <p className="text-[10px] uppercase tracking-wider text-amber-400/60 font-medium">Revealed Hint</p>
                       <p className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                        {revealedData?.name || msgAny.senderName || 'Anonymous'} 
-                        <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{revealedData?.gender || msgAny.senderGender || 'Secret 🤫'}</span>
+                        {msgAny.senderName || 'Anonymous'} 
+                        <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">{msgAny.senderGender || 'Secret 🤫'}</span>
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <Button onClick={handleRevealIdentity} disabled={isPaymentLoading}
+                  <Button onClick={handleRevealIdentity}
                     className="w-full h-10 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-amber-950 font-bold shadow-lg shadow-amber-500/20 transition-all hover:scale-[1.02]">
-                    {isPaymentLoading ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
-                    ) : (
-                      <><Lock className="mr-2 h-4 w-4" /> Unlock Whispers Pro (₹499)</>
-                    )}
+                    <Sparkles className="mr-2 h-4 w-4" /> Reveal Clues &amp; Sender (Free ✨)
                   </Button>
                 )}
               </div>

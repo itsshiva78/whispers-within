@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { Shield, Heart, Eye, Code, Sparkles, Users, Lock, Zap } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -11,12 +10,37 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About | Our Mission & Story',
     description: 'Discover the story behind Whispers Within and our commitment to honest, anonymous feedback.',
+    url: 'https://www.whispers-within.in/about',
+  },
+};
+
+// E-E-A-T Person & AboutPage JSON-LD Schema
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Whispers Within',
+  description: 'Mission, story, and values of Whispers Within anonymous messaging platform.',
+  url: 'https://www.whispers-within.in/about',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Shiva',
+    jobTitle: 'Founder & Software Engineer',
+    description: 'Software engineer and student passionate about building privacy-first social tools.',
+    url: 'https://www.whispers-within.in/about',
+    sameAs: [
+      'https://github.com/itsshiva78/whispers-within',
+      'https://www.whispers-within.in',
+    ],
   },
 };
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[180px]"
@@ -54,8 +78,8 @@ export default function AboutPage() {
             </div>
             <div className="rounded-2xl p-8 text-center"
               style={{ background: 'rgba(21, 18, 31, 0.6)', border: '1px solid rgba(139,92,246,0.1)' }}>
-              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 shadow-lg shadow-violet-500/20 border-2 border-violet-500/30 relative">
-                <Image src="/avatar.jpg" alt="Shiva" width={80} height={80} className="w-full h-full object-cover" />
+              <div className="w-20 h-20 rounded-full mx-auto mb-6 shadow-lg shadow-violet-500/25 border-2 border-violet-500/40 bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-2xl font-mono">
+                SS
               </div>
               <h3 className="text-2xl font-bold mb-2">Shiva</h3>
               <p className="text-violet-400 text-sm font-medium mb-4">Founder & Developer</p>

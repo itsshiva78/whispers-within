@@ -11,7 +11,6 @@ import { SkeletonGrid } from '@/components/MessageCardSkeleton';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useSession } from 'next-auth/react';
-import { load } from '@cashfreepayments/cashfree-js';
 import { Input } from '@/components/ui/input';
 
 dayjs.extend(relativeTime);
@@ -51,7 +50,6 @@ export default function ConfessionWall() {
   const [filterCategory, setFilterCategory] = useState('all');
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [shareConfession, setShareConfession] = useState<ConfessionType | null>(null);
-  const [isPaymentLoading, setIsPaymentLoading] = useState<string | null>(null);
   const [showHintsId, setShowHintsId] = useState<string | null>(null);
   const { data: session } = useSession();
   const user = session?.user as any;
@@ -77,15 +75,17 @@ export default function ConfessionWall() {
     } catch { /* ignore */ }
   }, []);
 
-  const handlePost = async () => {
+  const handleCreateConfession = async (e?: React.SyntheticEvent) => {
+    if (e) e.preventDefault();
     if (!newConfession.trim()) return;
+
     setIsPosting(true);
     try {
-      await axios.post('/api/confessions', { 
-        content: newConfession, 
+      await axios.post('/api/confessions', {
+        content: newConfession.trim(),
         category: selectedCategory,
-        senderName: senderName || 'Anonymous',
-        senderGender: senderGender || ''
+        senderName: senderName.trim() || undefined,
+        senderGender: senderGender || undefined,
       });
       toast({ title: '🤫 Confession posted anonymously!' });
       setNewConfession('');
@@ -97,55 +97,13 @@ export default function ConfessionWall() {
     } finally { setIsPosting(false); }
   };
 
-  const handleRevealIdentity = async (confessionId: string) => {
-    if (!session) {
-      toast({ title: 'Please Sign In', description: 'You need to be logged in to reveal identities.', variant: 'destructive' });
-      return;
-    }
+  const handlePost = () => handleCreateConfession();
 
-    setIsPaymentLoading(confessionId);
-    try {
-      // 1. Create order
-      const { data } = await axios.post('/api/cashfree/create-order-confession', { confessionId });
-      if (!data.success) {
-        toast({ title: 'Failed to create order', description: data.message, variant: 'destructive' });
-        setIsPaymentLoading(null);
-        return;
-      }
-
-      // 2. Open Cashfree Popup
-      const cashfree = await load({ mode: 'production' });
-      const checkoutOptions = {
-        paymentSessionId: data.payment_session_id,
-        redirectTarget: '_modal',
-      };
-
-      cashfree.checkout(checkoutOptions).then((result: any) => {
-        if (result.error) {
-          toast({ title: 'Payment Failed', description: result.error.message, variant: 'destructive' });
-          setIsPaymentLoading(null);
-        }
-        if (result.paymentDetails) {
-          toast({ title: 'Payment Successful', description: 'Verifying...', variant: 'default' });
-          axios.post('/api/cashfree/verify-confession', { orderId: data.order_id }).then(res => {
-            if (res.data.success) {
-              toast({ title: 'Unlocked!', description: 'You can now see who confessed.' });
-              // Update local state to show unmasked info
-              setConfessions(prev => prev.map(c => 
-                c._id === confessionId ? { ...c, senderName: res.data.senderName, senderGender: res.data.senderGender, isNameRevealed: true } : c
-              ));
-            } else {
-              toast({ title: 'Verification Failed', variant: 'destructive', description: res.data.message });
-            }
-          }).finally(() => {
-            setIsPaymentLoading(null);
-          });
-        }
-      });
-    } catch (error: any) {
-      toast({ title: 'Error', description: error.response?.data.message || 'Payment process failed', variant: 'destructive' });
-      setIsPaymentLoading(null);
-    }
+  const handleRevealIdentity = (confessionId: string) => {
+    setConfessions(prev => prev.map(c => 
+      c._id === confessionId ? { ...c, isNameRevealed: true } : c
+    ));
+    toast({ title: 'Unlocked!', description: 'Confession sender details revealed for free.' });
   };
 
   const handleLike = async (id: string) => {
@@ -205,7 +163,7 @@ export default function ConfessionWall() {
               <Input 
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
-                placeholder="Revealed only if someone pays..."
+                placeholder="Leave a secret nickname or riddle..."
                 className="h-11 rounded-xl border-0 bg-background/80 text-sm focus-visible:ring-1 focus-visible:ring-primary shadow-sm"
               />
             </div>
@@ -355,15 +313,10 @@ export default function ConfessionWall() {
                       ) : (
                         <Button 
                           onClick={() => handleRevealIdentity(confession._id)} 
-                          disabled={isPaymentLoading === confession._id}
                           size="lg"
                           className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-amber-950 font-black shadow-lg shadow-amber-500/25 transition-transform active:scale-[0.98]"
                         >
-                          {isPaymentLoading === confession._id ? (
-                            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Unlocking...</>
-                          ) : (
-                            <><Lock className="mr-2 h-4 w-4" /> Unlock Whispers Pro (₹499)</>
-                          )}
+                          <Sparkles className="mr-2 h-4 w-4" /> Reveal Sender (Free ✨)
                         </Button>
                       )}
                     </div>

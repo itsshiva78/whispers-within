@@ -37,8 +37,8 @@ We believe that connecting with your friends shouldn't come at the cost of your 
 ### 2. The Confession Wall
 This is where Whispers Within truly stands apart. Beyond just receiving private messages on your dashboard, you can interact with our **Confession Wall**. It's a public, community-driven space where users from all over India share anonymous stories, funny moments, and deep secrets. You can browse categories like Love, Funny, and Deep, and interact with the community.
 
-### 3. Fair & Transparent Premium Features
-While the core app is free, we offer **Whispers Pro** for ₹499. Unlike other apps that charge weekly subscriptions, Whispers Pro is a fair, transparent upgrade that lets you unlock optional hints left by users on the Confession Wall. No shady recurring charges, just straightforward value.
+### 3. 100% Free Forever (Zero Paywalls or Subscriptions)
+Unlike other apps that charge heavy recurring subscriptions or sneaky weekly fees just to see basic hints, Whispers Within is 100% free forever. All sender clues, device hints, and Confession Wall features are unlocked for the entire community. No shady recurring charges, no paywalls, just straightforward honest messaging.
 
 ### 4. Built-in Story Generator
 Sharing your link on Instagram should look good. Our dashboard features a built-in Story Template Generator. You don't need to screenshot a boring white screen; you can choose from beautiful, aesthetic templates that automatically include your unique link.
@@ -63,10 +63,10 @@ Making the switch from NGL to Whispers Within is incredibly easy.
 ## Frequently Asked Questions
 
 ### What makes Whispers Within better than NGL?
-Whispers Within offers a 100% ad-free experience for senders and receivers, features a community Confession Wall, and provides fair, one-time transparent pricing for premium features instead of expensive weekly recurring subscriptions.
+Whispers Within offers a 100% free experience for senders and receivers, features a community Confession Wall, and unlocks all sender clues and device hints without expensive weekly subscriptions or hidden paywalls.
 
 ### Do I need to pay to use Whispers Within?
-No! The core anonymous messaging features are completely free. You only pay if you choose to upgrade to Whispers Pro for advanced features like unlocking sender hints and viewing device metadata.
+No! Whispers Within is 100% free forever. All features—including anonymous messaging, receiving whispers, confession wall participation, and unlocking sender clues—are accessible to everyone at zero cost.
 
 ### Can people see who sent the message?
 No. Anonymous messages are truly anonymous. We do not track sender IP addresses or require senders to log in. The only exception is if a sender voluntarily chooses to leave a "hint" (like a nickname or emoji) on the Confession Wall.
