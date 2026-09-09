@@ -27,6 +27,7 @@ function UserDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [showStoryGenerator, setShowStoryGenerator] = useState(false);
+  const [profileUrl, setProfileUrl] = useState('');
   const { toast } = useToast();
 
   const handleDeleteMessage = (messageId: string) => {
@@ -65,6 +66,12 @@ function UserDashboard() {
     if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessages();
+    if (typeof window !== 'undefined') {
+      const uname = (session.user as User).username;
+      if (uname) {
+        setProfileUrl(`${window.location.protocol}//${window.location.host}/u/${uname}`);
+      }
+    }
   }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
 
   const handleSwitchChange = async () => {
@@ -82,11 +89,10 @@ function UserDashboard() {
 
   const user = session.user as User;
   const { username } = user;
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
+  const currentProfileUrl = profileUrl || (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/u/${username}` : `https://www.whispers-within.in/u/${username}`);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(profileUrl);
+    navigator.clipboard.writeText(currentProfileUrl);
     toast({ title: 'URL Copied!', description: 'Profile URL has been copied to clipboard.' });
   };
 
@@ -127,7 +133,7 @@ function UserDashboard() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div className="flex-1 px-4 py-3 rounded-xl text-xs sm:text-sm text-muted-foreground font-mono break-all"
               style={{ background: 'rgba(13, 11, 20, 0.8)', border: '1px solid rgba(139,92,246,0.08)' }}>
-              {profileUrl}
+              {currentProfileUrl}
             </div>
             <div className="flex items-center gap-3">
               <Button onClick={copyToClipboard}
@@ -142,47 +148,34 @@ function UserDashboard() {
           </div>
         </div>
 
-        {/* Gamification / Free Hint Progress */}
-        {!user?.isPro && (
-          <div className="rounded-2xl p-6 mb-8 overflow-hidden relative group cursor-pointer animate-in fade-in slide-in-from-bottom-4 duration-500"
-            style={{
-              background: 'linear-gradient(135deg, rgba(21, 18, 31, 0.8) 0%, rgba(139, 92, 246, 0.05) 100%)',
-              backdropFilter: 'blur(16px)',
-              border: '1px solid rgba(139,92,246,0.15)',
-              boxShadow: '0 8px 32px rgba(139,92,246,0.1)',
-            }}
-            onClick={() => setShowStoryGenerator(true)}
-          >
-            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-violet-600/10 blur-[40px] group-hover:bg-violet-600/20 transition-all duration-500" />
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative z-10">
-              <div>
-                <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-indigo-400 mb-1 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-violet-400" /> Free Hint Quest
-                </h3>
-                <p className="text-sm text-muted-foreground/80">
-                  Share your link on Instagram today to earn <strong className="text-violet-300">1 Free Hint Unlock</strong>!
-                </p>
-              </div>
-              
-              <div className="w-full sm:w-auto flex-shrink-0">
-                <Button className="w-full sm:w-auto h-10 px-5 rounded-xl bg-violet-500/10 hover:bg-violet-500/20 text-violet-300 border border-violet-500/20 transition-all group-hover:scale-105" onClick={(e) => { e.stopPropagation(); setShowStoryGenerator(true); }}>
-                  <Share2 className="w-4 h-4 mr-2" /> Share Now to Claim
-                </Button>
-              </div>
+        {/* Boost Inbound Whispers Card */}
+        <div className="rounded-2xl p-6 mb-8 overflow-hidden relative group cursor-pointer animate-in fade-in slide-in-from-bottom-4 duration-500"
+          style={{
+            background: 'linear-gradient(135deg, rgba(21, 18, 31, 0.8) 0%, rgba(139, 92, 246, 0.08) 100%)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(139,92,246,0.18)',
+            boxShadow: '0 8px 32px rgba(139,92,246,0.1)',
+          }}
+          onClick={() => setShowStoryGenerator(true)}
+        >
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-violet-600/15 blur-[40px] group-hover:bg-violet-600/25 transition-all duration-500" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative z-10">
+            <div>
+              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-indigo-400 mb-1 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-violet-400" /> Boost Your Inbound Whispers 🚀
+              </h3>
+              <p className="text-sm text-muted-foreground/80">
+                Share your story template on Instagram or Snapchat to receive <strong className="text-violet-300">5x more anonymous questions</strong> today!
+              </p>
             </div>
             
-            {/* Progress Bar */}
-            <div className="mt-5">
-              <div className="flex justify-between text-xs font-semibold text-muted-foreground mb-2">
-                <span>Shares Today</span>
-                <span className="text-violet-300 font-bold">0 / 1</span>
-              </div>
-              <div className="w-full h-2 rounded-full bg-black/40 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-violet-600 to-indigo-500 rounded-full w-[10%]" />
-              </div>
+            <div className="w-full sm:w-auto flex-shrink-0">
+              <Button className="w-full sm:w-auto h-10 px-5 rounded-xl bg-violet-500/10 hover:bg-violet-500/20 text-violet-300 border border-violet-500/20 transition-all group-hover:scale-105" onClick={(e) => { e.stopPropagation(); setShowStoryGenerator(true); }}>
+                <Share2 className="w-4 h-4 mr-2" /> Share Story Template
+              </Button>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
@@ -245,7 +238,7 @@ function UserDashboard() {
       {showStoryGenerator && (
         <StoryTemplateGenerator
           username={username || 'anonymous'}
-          profileUrl={profileUrl}
+          profileUrl={currentProfileUrl}
           onClose={() => setShowStoryGenerator(false)}
         />
       )}

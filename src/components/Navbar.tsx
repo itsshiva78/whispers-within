@@ -101,7 +101,22 @@ function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {!session && (
+            {session ? (
+              <div className="pt-3 border-t border-border/20 mt-3 space-y-2">
+                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block">
+                  <Button className="w-full h-11 rounded-xl text-sm font-bold bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-500/20">
+                    <MessageCircle className="h-4 w-4 mr-2" /> Go to Dashboard (@{user?.username || 'me'})
+                  </Button>
+                </Link>
+                <Button
+                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: '/' }); }}
+                  className="w-full h-10 rounded-xl text-sm font-medium bg-secondary/80 hover:bg-secondary text-muted-foreground hover:text-foreground border border-border/30"
+                  variant="ghost"
+                >
+                  <LogOut className="h-4 w-4 mr-2" /> Log out
+                </Button>
+              </div>
+            ) : (
               <div className="flex gap-3 pt-3 border-t border-border/20 mt-3">
                 <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button className="w-full h-10 rounded-xl text-sm font-medium bg-secondary/80 hover:bg-secondary text-foreground border border-border/30" variant="ghost">

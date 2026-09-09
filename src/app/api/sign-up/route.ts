@@ -29,22 +29,42 @@ export async function POST(request: Request) {
       return Response.json({ success: false, message: 'Password must be at least 6 characters' }, { status: 400 });
     }
 
-    const existingVerifiedUserByUsername = await UserModel.findOne({
-      username: username.trim().toLowerCase(),
-      isVerified: true,
+    const cleanUsername = username.trim().toLowerCase();
+    const cleanEmail = email.trim().toLowerCase();
+
+    const existingUserByUsername = await UserModel.findOne({
+      username: cleanUsername,
     });
 
-    if (existingVerifiedUserByUsername) {
-      return Response.json(
-        {
-          success: false,
-          message: 'Username is already taken',
-        },
-        { status: 400 }
-      );
+    if (existingUserByUsername) {
+      if (existingUserByUsername.isVerified) {
+        return Response.json(
+          {
+            success: false,
+            message: 'Username is already taken',
+          },
+          { status: 400 }
+        );
+      }
+
+      // Check if stale unverified account has expired
+      const isExpired = existingUserByUsername.verifyCodeExpiry && new Date(existingUserByUsername.verifyCodeExpiry) < new Date();
+      if (isExpired) {
+        if (existingUserByUsername.email !== cleanEmail) {
+          await UserModel.deleteOne({ _id: existingUserByUsername._id });
+        }
+      } else if (existingUserByUsername.email !== cleanEmail) {
+        return Response.json(
+          {
+            success: false,
+            message: 'Username is already taken',
+          },
+          { status: 400 }
+        );
+      }
     }
 
-    const existingUserByEmail = await UserModel.findOne({ email: email.trim().toLowerCase() });
+    const existingUserByEmail = await UserModel.findOne({ email: cleanEmail });
     let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     if (existingUserByEmail) {
@@ -58,6 +78,7 @@ export async function POST(request: Request) {
         );
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
+        existingUserByEmail.username = cleanUsername;
         existingUserByEmail.password = hashedPassword;
         existingUserByEmail.verifyCode = verifyCode;
         existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
@@ -69,8 +90,8 @@ export async function POST(request: Request) {
       expiryDate.setHours(expiryDate.getHours() + 1);
 
       const newUser = new UserModel({
-        username: username.trim().toLowerCase(),
-        email: email.trim().toLowerCase(),
+        username: cleanUsername,
+        email: cleanEmail,
         password: hashedPassword,
         verifyCode,
         verifyCodeExpiry: expiryDate,

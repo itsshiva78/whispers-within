@@ -1,7 +1,5 @@
 import dbConnect from '@/lib/dbConnect';
 import ConfessionModel from '@/model/Confession';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../auth/[...nextauth]/options';
 import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rateLimit';
 import { confessionSchema } from '@/schemas/confessionSchema';
 
@@ -93,24 +91,13 @@ export async function GET(request: Request) {
 
     const total = await ConfessionModel.countDocuments(filter);
 
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?._id?.toString();
-
-    // Securely map the confessions
-    const mappedConfessions = confessions.map((confessionObj) => {
-      const isRevealedToCurrentUser = userId && confessionObj.revealedTo?.some(
-        (id: any) => id.toString() === userId
-      );
-
-      return {
-        ...confessionObj,
-        // Only attach sender info if the current user paid to reveal
-        senderName: isRevealedToCurrentUser ? confessionObj.senderName : undefined,
-        senderGender: isRevealedToCurrentUser ? confessionObj.senderGender : undefined,
-        // Provide hint to the frontend on whether the identity is revealed for this user
-        isNameRevealed: isRevealedToCurrentUser,
-      };
-    });
+    // Map confessions to include voluntary clues and metadata
+    const mappedConfessions = confessions.map((confessionObj) => ({
+      ...confessionObj,
+      senderName: confessionObj.senderName || '',
+      senderGender: confessionObj.senderGender || '',
+      isNameRevealed: false,
+    }));
 
     return Response.json({
       success: true,
